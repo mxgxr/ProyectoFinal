@@ -42,6 +42,8 @@
 
 \section{Introducción} \label{Introducción}
 
+En este documento planteamos el diseño de las clases que seran implementadas en nuestro proyecto final. El juego sera un Master Key, en donde habran dos personajes principales los cuales competiran entre ellos para ganar, el objetivo es que los jugadores derroten a los enemigos que se encuentren en su camino, lo cual no sera nada facil porque ellos atacaran con fuego para herir a los jugadores, por esto los personajes tienen la capacidad de tirar flechas para asi asesinar a los enemigos. Uno de los enemigos con quienes se enfrentaran tiene en su poder la llave maestra, la cual abre la puerta que esta ubicada en el centro del laberinto, pero para llegar a ella los personajes deben escontrar el camino correcto para poder ganar, el jugador que primero llegue a la puerta acumula puntos extras y la llave desbloquea el siguiente nivel (para pasar de nivel solo es necesario que uno de los dos jugadores llegue y abra la puerta). Al terminar el ultimo nivel (el de mayor dificultad) el jugador ganador sera el que obtenga mas puntos a traves de cada nivel del juego. Cabe aclarar que se ganan puntos cada vez que el jugador derrota a un enemigo, al encontrar la llave y tambien al abrir la puerta, se pierden puntos y vidas cuando los jugadores reciben un ataque de un enemigo. El juego se acaba si uno de los jugadores queda sin vidas (las vidas de cada jugador se reinician al pasar a otro nivel). Para el desarrollo de las ideas anteriormente planteadas describimos el funcionamiento de cada clase y como interactuan entre ellas, para hacerlo de una manera mas ordenada decidimos hacer una clase para los personajes principales, para los enemigos, las flechas, la llave, la puerta, los escenarios, entre otros. Todos los detalles de cada una de las clases se describen acontinuacion.
+
 \section{Modelamiento de objetos} \label{Modelamiento de objetos}
 
 \subsection{Clases implementadas}
@@ -120,7 +122,7 @@ Los enemigos solo serán derrotados una vez que la flecha colisione con ellos, c
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.5]{IdeaFinal/images/Cronograma.png}
+    \includegraphics[scale=0.5]{images/Cronograma.png}
 \end{figure}
 
 

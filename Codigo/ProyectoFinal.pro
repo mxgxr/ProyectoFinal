@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    pared.cpp
+    pared.cpp \
+    usuarios.cpp
 
 HEADERS += \
     mainwindow.h \
-    pared.h
+    pared.h \
+    usuarios.h
 
 FORMS += \
     mainwindow.ui

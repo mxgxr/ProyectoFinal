@@ -12,8 +12,7 @@ class Usuarios
 {
 private:
     vector<vector<string>>users;
-    string nomUser, contraUser;
-    int level;
+
 public:
     Usuarios();
     bool Registrar(string nombre, string contrasena);

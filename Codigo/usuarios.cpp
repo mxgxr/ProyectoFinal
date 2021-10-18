@@ -9,14 +9,13 @@ Usuarios::Usuarios()
         fin.open("../ProyectoFinal/usuarios.txt");
         if(!fin.is_open()){throw '1';}
         while(!fin.eof()){
-
+            getline(fin,linea);
+            Leer(linea);
         }
         fin.close();
     }  catch (char a) {
         if(a==1){} //---------> mirar el tema de los errores en qt
     }
-
-
 
 }
 
@@ -69,11 +68,45 @@ bool Usuarios::Validar(string nombre, string contrasena)
 
 void Usuarios::Leer(string linea)
 {
+    vector<string>uploadUsers;
+    string texto="";
+    for(unsigned i=0; i<linea.size(); i++){
+        if(linea[i]!=';' and linea[i]!='\n'){
+            texto+=linea[i];
+        }
+        else{
+            uploadUsers.push_back(texto);
+            texto="";
+        }
+    }
 
-
+    users.push_back(uploadUsers);
+    uploadUsers.clear();
 }
 
 void Usuarios::Guardar()
 {
+    ofstream fout;
+    string linea="";
+    vector<vector<string>>::iterator iter;
+    vector<string>::iterator vecIt;
+
+    try {
+        fout.open("../ProyectoFinal/usuarios.txt");
+        if(!fout.is_open()){throw '1';}
+        for(iter=users.begin(); iter!=users.end(); iter++){
+            for(vecIt=iter->begin(); vecIt!=iter->end(); vecIt++){
+                linea+=(*vecIt);
+            }
+            fout << linea;
+            linea="";
+        }
+
+        fout.close();
+
+    }  catch (char a) {
+        if(a==1){} //---------> mirar el tema de los errores en qt
+    }
+
 
 }

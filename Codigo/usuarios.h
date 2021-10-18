@@ -2,20 +2,24 @@
 #define USUARIOS_H
 
 #include <string>
+#include <vector>
 #include <fstream>
+#include <iterator>
 
 using namespace std;
 
 class Usuarios
 {
 private:
+    vector<vector<string>>users;
     string nomUser, contraUser;
     int level;
 public:
-    Usuarios(string nombre, string contrasena, int nivel);
-    void Registrar();
-    bool Validar();
-    void Leer();
+    Usuarios();
+    bool Registrar(string nombre, string contrasena);
+    bool Validar(string nombre);
+    bool Validar(string nombre, string contrasena);
+    void Leer(string linea);
     void Guardar();
 };
 

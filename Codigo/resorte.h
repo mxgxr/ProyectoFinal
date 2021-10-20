@@ -13,9 +13,9 @@
 class Resorte : public QGraphicsItem
 {
 private:
-    int posx,posy,amplitud,velx,acex,fuerza;
+    double posx,posy,amplitud,velx,acex,fuerza;
 public:
-    Resorte(int x, int y, int a);
+    Resorte(double x, double y, double a);
     void cPosicion();
     void cVelocidad();
     void cAceleracion();

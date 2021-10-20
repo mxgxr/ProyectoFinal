@@ -13,12 +13,15 @@
 class Resorte : public QGraphicsItem
 {
 private:
-    int posx,posy,amplitud,velx,acex;
+    int posx,posy,amplitud,velx,acex,fuerza;
 public:
     Resorte(int x, int y, int a);
     void cPosicion();
     void cVelocidad();
     void cAceleracion();
+    void cFuerza();
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 };
 
 #endif // RESORTE_H

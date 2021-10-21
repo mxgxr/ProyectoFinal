@@ -2,6 +2,7 @@
 
 Usuarios::Usuarios()
 {
+    users.clear();
     ifstream fin;
     string linea;
 

@@ -17,6 +17,6 @@ void Pared::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 {
     //painter->setBrush(Qt::green);
     //painter->drawRect(boundingRect());
-    QPixmap pxMap("../images/ladrillos.jpg");
+    QPixmap pxMap(":/images/ladrillos.jpg");
     painter->drawPixmap(boundingRect(), pxMap, pxMap.rect());
 }

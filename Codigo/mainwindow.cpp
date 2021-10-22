@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     scene9->setSceneRect(-500,-300,1000,600);
     pared1 = new Pared(0,0,50);
     QPixmap pintura1(jugador_1),pintura2(jugador_2);
-    jugador1= new personajes(10,0,pintura1);
-    jugador2= new personajes(50,0,pintura2);
+    jugadores.push_back(jugador1= new personajes(posx1,posy1,pintura1));
+    jugadores.push_back(jugador2= new personajes(posx2,posy2,pintura2));
     scene9->addItem(pared1);
     scene9->addItem(jugador1);
     scene9->addItem(jugador2);
@@ -40,7 +40,7 @@ void MainWindow::ePrincipal()
     ui->graphicsView->show();
     scene1->setSceneRect(0,0,1000,600);
 
-    letrero2 = new QImage("../images/letrero2.jpg");
+    letrero2 = new QImage(":/images/letrero2.jpg");
     scene1->addPixmap(QPixmap::fromImage(*letrero2));
     registrar = new QPushButton("Registrar");
     registrar->setGeometry(200,300,300,100);
@@ -243,5 +243,35 @@ void MainWindow::level1()
 
     ui->graphicsView->show();
 }
-
+void MainWindow::keyPressEvent(QKeyEvent *movimiento){
+    QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2);
+    switch (movimiento->key()) {
+    case Qt::Key_A:
+    {
+        posx1-=5;
+        jugador1->personajebrush=pintura2;
+    }
+        break;
+    case Qt::Key_D:
+    {
+        posx1+=5;
+        jugador1->personajebrush=pintura1;
+    }
+        break;
+    case Qt::Key_H:
+    {
+        posx2-=5;
+        jugador2->personajebrush=pintura4;
+    }
+        break;
+    case Qt::Key_K:
+    {
+        posx2+=5;
+        jugador2->personajebrush=pintura3;
+    }
+        break;
+    }
+    jugador1->setPos(posx1,posy1);
+    jugador2->setPos(posx2,posy2);
+}
 

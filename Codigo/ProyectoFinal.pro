@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
+    personajes.cpp \
     resorte.cpp \
     usuarios.cpp
 
 HEADERS += \
     mainwindow.h \
     pared.h \
+    personajes.h \
     resorte.h \
     usuarios.h
 
@@ -28,3 +30,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    personajes.qrc

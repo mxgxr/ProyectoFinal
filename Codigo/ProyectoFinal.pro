@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
+    personajes.cpp \
     resorte.cpp \
     usuarios.cpp
 
@@ -20,6 +21,7 @@ HEADERS += \
     enemigo.h \
     mainwindow.h \
     pared.h \
+    personajes.h \
     resorte.h \
     usuarios.h
 
@@ -32,4 +34,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
+    Imagenes.qrc \
+    personajes.qrc
+
     Imagenes.qrc
+
+    personajes.qrc
+

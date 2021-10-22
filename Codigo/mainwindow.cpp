@@ -6,12 +6,25 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     setWindowTitle("The master key");
     users = new Usuarios;
     //ui->graphicsView->setSceneRect(0,0,1000,600);
-    ePrincipal();
+   // ePrincipal();
 
     //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
+
+
+    scene9 = new QGraphicsScene();
+    ui->graphicsView->setScene(scene9);
+    scene9->setSceneRect(-500,-300,1000,600);
+    pared1 = new Pared(0,0,50);
+    QPixmap pintura1(jugador_1),pintura2(jugador_2);
+    jugador1= new personajes(10,0,pintura1);
+    jugador2= new personajes(50,0,pintura2);
+    scene9->addItem(pared1);
+    scene9->addItem(jugador1);
+    scene9->addItem(jugador2);
 
 }
 
@@ -97,6 +110,9 @@ void MainWindow::level1()
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
+    //paredes1.push_back(new Pared(0,0,50));
+    //scene4->addItem(paredes1.back());
+
     paredes1.push_back(new Pared(-475,275,50));
     scene4->addItem(paredes1.back());
     paredes1.push_back(new Pared(-425,275,50));

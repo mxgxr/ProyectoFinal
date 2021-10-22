@@ -5,7 +5,7 @@ Pared::Pared(int x, int y, int t)
     this->posx=x;
     this->posy=y;
     this->tam=t;
-    setPos(posx,-posy);
+    setPos(-posx,-posy);
 }
 
 QRectF Pared::boundingRect() const

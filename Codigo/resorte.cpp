@@ -1,6 +1,6 @@
 #include "resorte.h"
 
-Resorte::Resorte(int x, int y, int a)
+Resorte::Resorte(double x, double y, double a)
 {
     this->posx=x;
     this->posy=y;

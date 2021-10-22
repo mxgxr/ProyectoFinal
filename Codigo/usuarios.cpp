@@ -2,11 +2,12 @@
 
 Usuarios::Usuarios()
 {
+    users.clear();
     ifstream fin;
     string linea;
 
     try {
-        fin.open("../ProyectoFinal/usuarios.txt");
+        fin.open("../usuarios.txt");
         if(!fin.is_open()){throw '1';}
         while(!fin.eof()){
             getline(fin,linea);

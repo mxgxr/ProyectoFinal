@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <iterator>
+#include <QString>
 
 using namespace std;
 

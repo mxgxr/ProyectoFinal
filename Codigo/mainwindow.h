@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QTimer>
 #include <QPixmap>
 #include <QKeyEvent>
 #include <QList>
@@ -16,13 +17,13 @@
 #include "resorte.h"
 #include "enemigo.h"
 #include "personajes.h"
-
+#include "flecha.h"
 #define jugador_1 ":/jugadores/sprites/1personaje.png"
 #define jugador_2 ":/jugadores/sprites/2personaje.png"
-#define derecha_1 ":/jugadores/sprites/1derecha.png"
-#define izquierda_1 ":/jugadores/sprites/1izquierda.png"
-#define derecha_2 ":/jugadores/sprites/2derecha.png"
-#define izquierda_2 ":/jugadores/sprites/2izquierda.png"
+#define derecha_1 ":/jugadores/sprites/1flechad.png"
+#define izquierda_1 ":/jugadores/sprites/1flechai.png"
+#define derecha_2 ":/jugadores/sprites/2flechad.png"
+#define izquierda_2 ":/jugadores/sprites/2flechai.png"
 
 
 QT_BEGIN_NAMESPACE
@@ -45,6 +46,7 @@ private slots:
     void funcRegistro();
     void eInicio();
     void level1();
+    //void movimientoflecha();//aplicar movimiento parabolico
    // void level2();
    // void level3();
 protected:
@@ -62,9 +64,11 @@ private:
 
     Pared *pared1;
     personajes *jugador1,*jugador2;
+    flecha *tirarflecha1,*tirarflecha2;
     int posx1=10,posy1=0,posx2=50,posy2=0;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
+    QTimer *flecham;
 
     Ui::MainWindow *ui;
     //QGraphicsScene *scene9;

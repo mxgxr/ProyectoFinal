@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     enemigo.cpp \
+    flecha.cpp \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     enemigo.h \
+    flecha.h \
     mainwindow.h \
     pared.h \
     personajes.h \

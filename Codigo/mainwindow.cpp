@@ -270,6 +270,23 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador2->personajebrush=pintura3;
     }
         break;
+    case Qt::Key_F:
+    {
+        tirarflecha1= new flecha(posx1+35,posy1);
+        scene9->addItem(tirarflecha1);
+        /*
+        flecham=new QTimer(this);
+        connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+        flecham->start(100);
+        */
+    }
+        break;
+    case Qt::Key_G:
+    {
+        tirarflecha2= new flecha(posx2+35,posy2);
+        scene9->addItem(tirarflecha2);
+    }
+        break;
     }
     jugador1->setPos(posx1,posy1);
     jugador2->setPos(posx2,posy2);

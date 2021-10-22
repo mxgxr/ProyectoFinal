@@ -42,7 +42,7 @@ void MainWindow::ePrincipal()
 
 
     connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro()));
-    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio()));
+    connect(ingresar, SIGNAL (clicked()),this, SLOT (level1())); //-------------CAMBIAR
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
 }
 
@@ -75,17 +75,157 @@ void MainWindow::eRegistro()
 
 void MainWindow::funcRegistro()
 {
+    regist = new QLabel();
+    regist->setGeometry(400,100,300,100);
+    scene3->addWidget(regist);
     if(users->Registrar(usuario1->text().toStdString(),contra->text().toStdString())){
-
+        regist->setText("Usuario registrado correctamente");
     }
     else {
-
+        regist->setText("No se pudo registrar correctamente");
     }
 }
 
 void MainWindow::eInicio()
 {
 
+
+}
+
+void MainWindow::level1()
+{
+    scene4 = new QGraphicsScene();
+    ui->graphicsView->setScene(scene4);
+    scene4->setSceneRect(-500,-300,1000,600);
+    paredes1.push_back(new Pared(-475,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-425,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-375,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-325,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-275,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-225,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-175,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-125,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-75,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-25,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(25,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(75,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(125,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(175,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(225,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(275,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(325,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(375,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(425,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,275,50));
+    scene4->addItem(paredes1.back());
+
+    paredes1.push_back(new Pared(-475,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-425,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-375,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-325,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-275,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-225,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-175,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-125,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-75,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-25,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(25,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(75,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(125,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(175,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(225,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(275,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(325,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(375,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(425,-275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-275,50));
+    scene4->addItem(paredes1.back());
+
+    paredes1.push_back(new Pared(-475,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,225,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,175,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,125,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,75,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,25,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,-25,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,-75,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,-125,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,-175,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(-475,-225,50));
+    scene4->addItem(paredes1.back());
+
+    paredes1.push_back(new Pared(475,275,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,225,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,175,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,125,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,75,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,25,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-25,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-75,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-125,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-175,50));
+    scene4->addItem(paredes1.back());
+    paredes1.push_back(new Pared(475,-225,50));
+    scene4->addItem(paredes1.back());
+
+    ui->graphicsView->show();
 }
 
 

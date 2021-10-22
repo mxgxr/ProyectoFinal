@@ -4,11 +4,12 @@
 #include <QGraphicsItem>
 #include <QPainter>
 
+
 class Pared : public QGraphicsItem
 {
 public:
-    int posx,posy;
-    Pared(int x, int y);
+    int posx,posy,tam;
+    Pared(int x, int y, int t);
     QRectF boundingRect() const ;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 };

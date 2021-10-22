@@ -7,8 +7,8 @@
 #include "pared.h"
 #include "personajes.h"
 
-#define jugador_1 ":/jugadores/sprites/1personaje.png"
-#define jugador_2 ":/jugadores/sprites/2personaje.png"
+#define jugador_1 "../Codigo/sprites/1personaje.png"
+#define jugador_2 "../Codigo/sprites//2personaje.png"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

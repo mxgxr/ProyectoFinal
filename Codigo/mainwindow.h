@@ -10,11 +10,15 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QFile>
+#include <QTextStream>
 
+#include "dialog.h"
 #include "pared.h"
 #include "usuarios.h"
 #include "resorte.h"
 #include "enemigo.h"
+
 
 #include <QPixmap>
 
@@ -35,6 +39,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void ePrincipal();
+    void loadLevel(QString ruta, QGraphicsScene *escena);
 
 public slots:
 
@@ -54,7 +59,7 @@ private:
     QLabel *title1, *regist;
     QLineEdit *usuario1, *contra;
     Usuarios *users;
-    QList<Pared*>paredes1;
+    QList<Pared*>paredes;
 
 
     Pared *pared1;

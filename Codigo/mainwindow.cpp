@@ -10,11 +10,11 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("The master key");
     users = new Usuarios;
     //ui->graphicsView->setSceneRect(0,0,1000,600);
-   // ePrincipal();
+    ePrincipal();
 
     //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
 
-
+/*
     scene9 = new QGraphicsScene();
     ui->graphicsView->setScene(scene9);
     scene9->setSceneRect(-500,-300,1000,600);
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     jugador2= new personajes(50,0,pintura2);
     scene9->addItem(pared1);
     scene9->addItem(jugador1);
-    scene9->addItem(jugador2);
+    scene9->addItem(jugador2);*/
 
 }
 
@@ -59,8 +59,56 @@ void MainWindow::ePrincipal()
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
 }
 
+void MainWindow::loadLevel(QString ruta, QGraphicsScene *escena)
+{
+    QFile archivo(ruta);
+    QString  strX="", strY="", strTam="";
+    int x,y,tam,cont=0;
+
+    if(archivo.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QTextStream txtInput(&archivo);
+        QString linea;
+        while(!txtInput.atEnd()){
+            linea=txtInput.readLine();
+            for(int i=0; i<linea.size(); i++){
+                if(linea[i]!=',' and linea[i]!=';'){
+                    if(cont==0){
+                        strX+=linea[i];
+                    }
+                    else if(cont==1){
+                        strY+=linea[i];
+                    }
+                    else if(cont==2){
+                        strTam+=linea[i];
+                    }
+                }
+                else if (linea[i]==','){
+                    cont++;
+                }
+                else{
+                    cont=0;
+                    x=strX.toInt();
+                    y=strY.toInt();
+                    tam=strTam.toInt();
+                    paredes.push_back(new Pared(x,y,tam));
+                    escena->addItem(paredes.back());
+                    strX="";
+                    strY="";
+                    strTam="";
+                }
+            }
+
+        }
+    }
+}
+
 void MainWindow::eRegistro()
 {
+   /* Dialog *ventana1 = new Dialog(this);
+    ventana1->setModal(true);
+    textEdit.
+    ventana1->show();
+    connect(Dialog::aceptar1, SIGNAL (clicked()),this, SLOT (funcRegistro()));*/
 
     scene3 = new QGraphicsScene();
 
@@ -110,136 +158,15 @@ void MainWindow::level1()
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
-    //paredes1.push_back(new Pared(0,0,50));
-    //scene4->addItem(paredes1.back());
 
-    paredes1.push_back(new Pared(-475,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-425,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-375,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-325,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-275,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-225,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-175,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-125,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-75,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-25,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(25,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(75,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(125,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(175,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(225,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(275,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(325,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(375,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(425,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,275,50));
-    scene4->addItem(paredes1.back());
+    loadLevel("../level1.txt",scene4);
 
-    paredes1.push_back(new Pared(-475,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-425,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-375,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-325,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-275,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-225,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-175,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-125,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-75,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-25,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(25,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(75,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(125,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(175,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(225,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(275,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(325,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(375,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(425,-275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-275,50));
-    scene4->addItem(paredes1.back());
+    QPixmap pintura1(jugador_1),pintura2(jugador_2);
+    jugador1= new personajes(10,0,pintura1);
+    jugador2= new personajes(50,0,pintura2);
+    scene4->addItem(jugador1);
+    scene4->addItem(jugador2);
 
-    paredes1.push_back(new Pared(-475,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,225,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,175,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,125,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,75,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,25,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,-25,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,-75,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,-125,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,-175,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(-475,-225,50));
-    scene4->addItem(paredes1.back());
-
-    paredes1.push_back(new Pared(475,275,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,225,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,175,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,125,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,75,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,25,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-25,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-75,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-125,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-175,50));
-    scene4->addItem(paredes1.back());
-    paredes1.push_back(new Pared(475,-225,50));
-    scene4->addItem(paredes1.back());
 
     ui->graphicsView->show();
 }

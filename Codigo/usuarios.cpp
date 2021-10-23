@@ -22,14 +22,19 @@ Usuarios::Usuarios()
 
 bool Usuarios::Registrar(string nombre, string contrasena)
 {
-    if(!Validar(nombre)){
-        vector<string>newUser;
-        newUser.push_back(nombre);
-        newUser.push_back(contrasena);
-        newUser.push_back("1");
-        users.push_back(newUser);
-        newUser.clear();
-        return true;
+    if(nombre!="" and contrasena!=""){
+        if(!Validar(nombre)){
+            vector<string>newUser;
+            newUser.push_back(nombre);
+            newUser.push_back(contrasena);
+            newUser.push_back("1");
+            users.push_back(newUser);
+            newUser.clear();
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     else{
         return false;
@@ -41,10 +46,12 @@ bool Usuarios::Validar(string nombre)
     vector<vector<string>>::iterator iter;
     vector<string>::iterator vecIt;
 
-    for(iter=users.begin(); iter!=users.end(); iter++){
-        vecIt=iter->begin();
-        if(*(vecIt)==nombre){
-            return true;
+    if(!users.empty()){
+        for(iter=users.begin(); iter!=users.end(); iter++){
+            vecIt=iter->begin();
+            if(*(vecIt)==nombre){
+                return true;
+            }
         }
     }
     return false;

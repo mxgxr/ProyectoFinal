@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     dialog.cpp \
     enemigo.cpp \
+    flecha.cpp \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     dialog.h \
     enemigo.h \
+    flecha.h \
     mainwindow.h \
     pared.h \
     personajes.h \

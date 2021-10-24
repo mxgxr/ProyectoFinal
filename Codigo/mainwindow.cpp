@@ -55,7 +55,7 @@ void MainWindow::ePrincipal()
 
 
     connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro()));
-    connect(ingresar, SIGNAL (clicked()),this, SLOT (level1())); //-------------CAMBIAR
+    connect(ingresar, SIGNAL (clicked()),this, SLOT (level2())); //-------------CAMBIAR
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
 }
 
@@ -170,6 +170,23 @@ void MainWindow::level1()
 
     ui->graphicsView->show();
 }
+
+void MainWindow::level2()
+{
+    scene5 = new QGraphicsScene();
+    ui->graphicsView->setScene(scene5);
+    scene5->setSceneRect(-500,-300,1000,600);
+
+    loadLevel("../level2.txt",scene5);
+
+
+    QPixmap pintura1(jugador_1),pintura2(jugador_2);
+    jugador1= new personajes(10,0,pintura1);
+    jugador2= new personajes(50,0,pintura2);
+    scene5->addItem(jugador1);
+    scene5->addItem(jugador2);
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2);
     switch (movimiento->key()) {

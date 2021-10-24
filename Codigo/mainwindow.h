@@ -60,7 +60,7 @@ private slots:
     void eInicio();
     void level1();
     //void movimientoflecha();//aplicar movimiento parabolico
-   // void level2();
+    void level2();
    // void level3();
 protected:
      void keyPressEvent(QKeyEvent *movimiento);

@@ -58,6 +58,7 @@ private slots:
     void eRegistro();
     void funcRegistro();
     void eInicio();
+    void funcAcceder();
     void level1();
     //void movimientoflecha();//aplicar movimiento parabolico
     void level2();
@@ -73,6 +74,7 @@ private:
     QLineEdit *usuario1, *contra;
     Usuarios *users;
     QList<Pared*>paredes;
+    Dialog *ventana1, *ventana2;
 
 
     Pared *pared1;

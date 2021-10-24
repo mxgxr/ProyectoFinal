@@ -14,3 +14,22 @@ Dialog::~Dialog()
 }
 
 
+
+void Dialog::on_aceptar1_clicked()
+{
+    usuario=ui->us->text().toStdString();
+    contra=ui->co->text().toStdString();
+    emit Dialog::back();
+}
+
+std::string Dialog::getContra() const
+{
+    return contra;
+}
+
+std::string Dialog::getUsuario() const
+{
+    return usuario;
+}
+
+

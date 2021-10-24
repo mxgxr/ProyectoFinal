@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
-    //ui->graphicsView->setSceneRect(0,0,1000,600);
     ePrincipal();
 
     //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
@@ -55,7 +54,7 @@ void MainWindow::ePrincipal()
 
 
     connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro()));
-    connect(ingresar, SIGNAL (clicked()),this, SLOT (level2())); //-------------CAMBIAR
+    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio())); //-------------CAMBIAR
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
 }
 
@@ -104,13 +103,13 @@ void MainWindow::loadLevel(QString ruta, QGraphicsScene *escena)
 
 void MainWindow::eRegistro()
 {
-   /* Dialog *ventana1 = new Dialog(this);
+    ventana1 = new Dialog(this);
     ventana1->setModal(true);
-    textEdit.
-    ventana1->show();
-    connect(Dialog::aceptar1, SIGNAL (clicked()),this, SLOT (funcRegistro()));*/
 
-    scene3 = new QGraphicsScene();
+    ventana1->show();
+    connect(ventana1, SIGNAL (back()),this, SLOT (funcRegistro()));
+
+    /*scene3 = new QGraphicsScene();
 
     ui->graphicsView->setScene(scene3);
 
@@ -131,25 +130,48 @@ void MainWindow::eRegistro()
 
 
 
-    connect(aceptarR, SIGNAL (clicked()),this, SLOT (funcRegistro()));
+    connect(aceptarR, SIGNAL (clicked()),this, SLOT (funcRegistro()));*/
 }
 
 void MainWindow::funcRegistro()
 {
+    ventana1->close();
     regist = new QLabel();
-    regist->setGeometry(400,100,300,100);
-    scene3->addWidget(regist);
-    if(users->Registrar(usuario1->text().toStdString(),contra->text().toStdString())){
+    regist->setGeometry(0,0,300,100);
+    scene1->addWidget(regist);
+    if(users->Registrar(ventana1->getUsuario(),ventana1->getContra())){
         regist->setText("Usuario registrado correctamente");
     }
     else {
         regist->setText("No se pudo registrar correctamente");
     }
+
+
 }
 
 void MainWindow::eInicio()
 {
+    ventana2 = new Dialog(this);
+    ventana2->setModal(true);
 
+    ventana2->show();
+    connect(ventana2, SIGNAL (back()),this, SLOT (funcAcceder()));
+
+
+}
+
+void MainWindow::funcAcceder()
+{
+    ventana2->close();
+    regist = new QLabel();
+    regist->setGeometry(0,0,300,100);
+    scene1->addWidget(regist);
+    if(users->Validar(ventana2->getUsuario(),ventana2->getContra())){
+        regist->setText("Funciono"); //-------->agregar para cargar en el nivel en el cual quedo el usuario
+    }
+    else{
+        regist->setText("No se pudo acceder correctamente");
+    }
 
 }
 

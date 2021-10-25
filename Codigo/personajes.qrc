@@ -10,5 +10,7 @@
         <file>sprites/2flechai.png</file>
         <file>sprites/2izquierda.png</file>
         <file>sprites/2personaje.png</file>
+        <file>sprites/fantasmader.png</file>
+        <file>sprites/fantasmaizq.png</file>
     </qresource>
 </RCC>

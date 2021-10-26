@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QTime>
 #include <QPixmap>
 #include <QKeyEvent>
 #include <QList>
@@ -36,6 +37,9 @@
 #define flechai ":/images/flecha2.png"
 #define enemigoDere ":/jugadores/sprites/fantasmader.png"
 #define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
+#define comprimido ":/jugadores/sprites/resortecomprimido.png"
+#define estirado ":/jugadores/sprites/resorteestirado.png"
+#define normal ":/jugadores/sprites/resorte normal.png"
 
 
 QT_BEGIN_NAMESPACE
@@ -60,8 +64,8 @@ private slots:
     void funcRegistro();
     void eInicio();
     void funcAcceder();
-    void ene1();
     void movEnemigo();
+    void movResorte();
     void level1();
     void movimientoflecha();//aplicar movimiento parabolico
     //void movimientollave();//aplicar movimiento circular
@@ -80,8 +84,11 @@ private:
     QList<Pared*>paredes;
     Dialog *ventana1, *ventana2;
     Enemigo *enemigo1, *enemigo2;
-    QTimer *timer;
+    QTimer *timer, *timer2;
+
     QVector<Enemigo*>enemigos1;
+    Resorte *resorte1;
+    double tiempo=0;
 
     Pared *pared1;
     personajes *jugador1,*jugador2;

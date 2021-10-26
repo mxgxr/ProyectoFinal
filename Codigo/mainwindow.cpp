@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
-    QPixmap pintura3(enemigoDere);
+    //QPixmap pintura3(enemigoDere);
     //enemigo1 = new Enemigo(150,-245,180,pintura3);
     ePrincipal();
 
@@ -45,14 +45,18 @@ void MainWindow::ePrincipal()
     letrero2 = new QImage(":/images/letrero2.jpg");
     scene1->addPixmap(QPixmap::fromImage(*letrero2));
     registrar = new QPushButton("Registrar");
-    registrar->setGeometry(200,300,300,100);
+    registrar->setGeometry(350,320,300,50);
+    registrar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
     //registrar->setGeometry(QRect(QPoint(0,100), QSize(300,100)));
     scene1->addWidget(registrar);
     ingresar = new QPushButton("Ingresar");
-    ingresar->setGeometry(QRect(QPoint(600,300), QSize(300,100)));
+    ingresar->setGeometry(QRect(QPoint(350,380), QSize(300,50)));
+    ingresar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
     scene1->addWidget(ingresar);
-    title1 = new QLabel("Welcome to \n The master key");
-    title1->setGeometry(400,100,300,100);
+    title1 = new QLabel("Welcome to The master key");
+    title1->setGeometry(300,80,600,300);
+    title1->setStyleSheet("font: 30pt ;" "font: Modern;" "color: rgb(234, 190, 63);" "background-color: rgba(0,0,0,0%);" "font style: Negrita;");
+    //title1->setAlignment(Qt::AlignHCenter);
     scene1->addWidget(title1);
 
 
@@ -126,6 +130,14 @@ void MainWindow::movEnemigo()
             (*iter)->cPosicion();
         }
     }
+}
+
+void MainWindow::movResorte()
+{
+    //QTime time = QTime::currentTime();
+    //double tiempo=time.toString().toDouble();
+    resorte1->cPosicion(tiempo);
+    tiempo++;
 }
 
 bool MainWindow::colParedes(QGraphicsItem *elemento)
@@ -219,15 +231,13 @@ void MainWindow::funcAcceder()
 
 }
 
-void MainWindow::ene1()
-{
-    enemigo1->setPos(-430,-245);
-}
-
 void MainWindow::level1()
 {
     timer = new QTimer(this);
     timer->start(10);
+    timer2 = new QTimer(this);
+    timer2->start(1000);
+
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
@@ -235,16 +245,22 @@ void MainWindow::level1()
 
     loadLevel("../level1.txt",scene4);
 
-    QPixmap pintura1(jugador_1),pintura2(jugador_2),pintura3(enemigoDere);
-    jugador1 = new personajes(10,0,pintura1);
-    jugador2 = new personajes(50,0,pintura2);
+    QPixmap pintura1(jugador_1),pintura2(jugador_2),pintura3(enemigoDere),pintura4(enemigoIzq);
+    jugador1 = new personajes(-455,-220,pintura1);
+    jugador2 = new personajes(-395,-220,pintura2);
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
+
     enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3));
     scene4->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3));
+    enemigos1.push_back(new Enemigo(-215,55,0,120,-215,pintura4));
     scene4->addItem(enemigos1.back());
+
+    resorte1 = new Resorte(385,-150,60);
+    scene4->addItem(resorte1);
+
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
+    //connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
     //connect(timer, SIGNAL(timeout()), this, SLOT(ene1()));
 
 

@@ -54,6 +54,9 @@ color: rgb(255, 255, 255);</string>
    <property name="text">
     <string>Usuario</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">

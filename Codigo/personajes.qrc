@@ -12,5 +12,8 @@
         <file>sprites/2personaje.png</file>
         <file>sprites/fantasmader.png</file>
         <file>sprites/fantasmaizq.png</file>
+        <file>sprites/resorte normal.png</file>
+        <file>sprites/resortecomprimido.png</file>
+        <file>sprites/resorteestirado.png</file>
     </qresource>
 </RCC>

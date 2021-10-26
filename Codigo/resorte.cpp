@@ -8,9 +8,9 @@ Resorte::Resorte(double x, double y, double a)
     setPos(posx,-posy);
 }
 
-void Resorte::cPosicion()
+void Resorte::cPosicion(double t)
 {
-    posx=amplitud*cos(dt*sqrt(k/masa));
+    posx=posx+amplitud*cos(t*sqrt(k/masa));
     setPos(posx,-posy);
 }
 

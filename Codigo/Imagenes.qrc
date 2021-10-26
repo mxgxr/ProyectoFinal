@@ -8,5 +8,6 @@
         <file>images/letrero2.jpg</file>
         <file>images/flecha.png</file>
         <file>images/flecha2.png</file>
+        <file>images/llave.png</file>
     </qresource>
 </RCC>

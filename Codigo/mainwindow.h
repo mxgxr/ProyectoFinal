@@ -23,6 +23,7 @@
 #include "enemigo.h"
 #include "personajes.h"
 #include "flecha.h"
+#include "llave.h"
 
 #define jugador_1 ":/jugadores/sprites/1personaje.png"
 #define jugador_2 ":/jugadores/sprites/2personaje.png"
@@ -88,6 +89,7 @@ private:
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;
+    llave *key;
 
     Ui::MainWindow *ui;
     //QGraphicsScene *scene9;

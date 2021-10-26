@@ -263,10 +263,8 @@ void MainWindow::level2()
     QPixmap pintura1(jugador_1),pintura2(jugador_2);
     jugador1= new personajes(10,0,pintura1);
     jugador2= new personajes(50,0,pintura2);
-    key=new llave(0,0);
     scene5->addItem(jugador1);
     scene5->addItem(jugador2);
-    scene5->addItem(key);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){

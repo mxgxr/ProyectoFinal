@@ -17,6 +17,7 @@ SOURCES += \
     mainwindow.cpp \
     pared.cpp \
     personajes.cpp \
+    puerta.cpp \
     resorte.cpp \
     usuarios.cpp
 
@@ -28,6 +29,7 @@ HEADERS += \
     mainwindow.h \
     pared.h \
     personajes.h \
+    puerta.h \
     resorte.h \
     usuarios.h
 

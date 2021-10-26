@@ -81,6 +81,9 @@ void Usuarios::Leer(string linea)
     for(unsigned i=0; i<linea.size(); i++){
         if(linea[i]!=';' and linea[i]!='\n'){
             texto+=linea[i];
+            if(i+1==linea.size()){
+                uploadUsers.push_back(texto);
+            }
         }
         else{
             uploadUsers.push_back(texto);
@@ -90,6 +93,21 @@ void Usuarios::Leer(string linea)
 
     users.push_back(uploadUsers);
     uploadUsers.clear();
+}
+
+string Usuarios::getLevel(string nombre)
+{
+    vector<vector<string>>::iterator iter;
+    vector<string>::iterator vecIt;
+
+    for(iter=users.begin(); iter!=users.end(); iter++){
+        vecIt=iter->begin();
+        if(*(vecIt)==nombre){
+            vecIt+=2;
+            return (*(vecIt));
+        }
+   }
+
 }
 
 void Usuarios::Guardar()

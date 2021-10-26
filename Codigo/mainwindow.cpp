@@ -9,7 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
+    QPixmap pintura3(enemigoDere);
+    //enemigo1 = new Enemigo(150,-245,180,pintura3);
     ePrincipal();
+
 
     //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
 
@@ -54,7 +57,7 @@ void MainWindow::ePrincipal()
 
 
     connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro()));
-    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio())); //-------------CAMBIAR
+    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio()));
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
 }
 
@@ -99,6 +102,41 @@ void MainWindow::loadLevel(QString ruta, QGraphicsScene *escena)
 
         }
     }
+}
+
+void MainWindow::movEnemigo()
+{
+    QPixmap pintura3(enemigoDere), pintura4(enemigoIzq);
+    QVector<Enemigo*>::iterator iter;
+    for(iter=enemigos1.begin(); iter!=enemigos1.end(); iter++){
+        if((*iter)->getPosx()+5>=(*iter)->getMaxX()){
+            (*iter)->setAngulo(180);
+            //(*iter)->cVelocidad();
+            (*iter)->cPosicion();
+            (*iter)->enemigoBrush=pintura4;
+        }
+        else if((*iter)->getPosx()-5<=(*iter)->getMinX()){
+            (*iter)->setAngulo(0);
+            //(*iter)->cVelocidad();
+            (*iter)->cPosicion();
+            (*iter)->enemigoBrush=pintura3;
+        }
+        else{
+            //(*iter)->cVelocidad();
+            (*iter)->cPosicion();
+        }
+    }
+}
+
+bool MainWindow::colParedes(QGraphicsItem *elemento)
+{
+    QList<Pared*>::Iterator it;
+    for(it=paredes.begin();it!=paredes.end();it++){
+        if((*it)->collidesWithItem(elemento)){
+            return true;
+        }
+    }
+    return false;
 }
 
 void MainWindow::eRegistro()
@@ -157,17 +195,23 @@ void MainWindow::eInicio()
     ventana2->show();
     connect(ventana2, SIGNAL (back()),this, SLOT (funcAcceder()));
 
-
 }
 
 void MainWindow::funcAcceder()
 {
     ventana2->close();
     regist = new QLabel();
+    string level;
     regist->setGeometry(0,0,300,100);
     scene1->addWidget(regist);
     if(users->Validar(ventana2->getUsuario(),ventana2->getContra())){
-        regist->setText("Funciono"); //-------->agregar para cargar en el nivel en el cual quedo el usuario
+        level=users->getLevel(ventana2->getUsuario());
+        if(level=="1"){
+            level1();
+        }
+        else if (level=="2"){
+            level2();
+        }
     }
     else{
         regist->setText("No se pudo acceder correctamente");
@@ -175,19 +219,33 @@ void MainWindow::funcAcceder()
 
 }
 
+void MainWindow::ene1()
+{
+    enemigo1->setPos(-430,-245);
+}
+
 void MainWindow::level1()
 {
+    timer = new QTimer(this);
+    timer->start(10);
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
+    scene4->setBackgroundBrush(Qt::darkGreen);
 
     loadLevel("../level1.txt",scene4);
 
-    QPixmap pintura1(jugador_1),pintura2(jugador_2);
-    jugador1= new personajes(10,0,pintura1);
-    jugador2= new personajes(50,0,pintura2);
+    QPixmap pintura1(jugador_1),pintura2(jugador_2),pintura3(enemigoDere);
+    jugador1 = new personajes(10,0,pintura1);
+    jugador2 = new personajes(50,0,pintura2);
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
+    enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3));
+    scene4->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3));
+    scene4->addItem(enemigos1.back());
+    connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
+    //connect(timer, SIGNAL(timeout()), this, SLOT(ene1()));
 
 
     ui->graphicsView->show();

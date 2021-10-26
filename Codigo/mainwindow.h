@@ -12,9 +12,9 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
-
 #include <QFile>
 #include <QTextStream>
+#include <iterator>
 
 #include "dialog.h"
 
@@ -36,6 +36,8 @@
 #define izquierda_1 ":/jugadores/sprites/1flechai.png"
 #define derecha_2 ":/jugadores/sprites/2flechad.png"
 #define izquierda_2 ":/jugadores/sprites/2flechai.png"
+#define enemigoDere ":/jugadores/sprites/fantasmader.png"
+#define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
 
 
 QT_BEGIN_NAMESPACE
@@ -52,6 +54,8 @@ public:
     void ePrincipal();
     void loadLevel(QString ruta, QGraphicsScene *escena);
 
+    bool colParedes(QGraphicsItem *elemento);
+
 public slots:
 
 private slots:
@@ -59,6 +63,9 @@ private slots:
     void funcRegistro();
     void eInicio();
     void funcAcceder();
+    void ene1();
+    void movEnemigo();
+
     void level1();
     //void movimientoflecha();//aplicar movimiento parabolico
     void level2();
@@ -75,6 +82,10 @@ private:
     Usuarios *users;
     QList<Pared*>paredes;
     Dialog *ventana1, *ventana2;
+    Enemigo *enemigo1, *enemigo2;
+    QTimer *timer;
+    QVector<Enemigo*>enemigos1;
+
 
 
     Pared *pared1;

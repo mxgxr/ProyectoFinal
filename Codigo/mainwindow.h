@@ -17,25 +17,21 @@
 #include <iterator>
 
 #include "dialog.h"
-
 #include "pared.h"
 #include "usuarios.h"
 #include "resorte.h"
 #include "enemigo.h"
-
-
-
-#include <QPixmap>
-
-
 #include "personajes.h"
 #include "flecha.h"
+
 #define jugador_1 ":/jugadores/sprites/1personaje.png"
 #define jugador_2 ":/jugadores/sprites/2personaje.png"
 #define derecha_1 ":/jugadores/sprites/1flechad.png"
 #define izquierda_1 ":/jugadores/sprites/1flechai.png"
 #define derecha_2 ":/jugadores/sprites/2flechad.png"
 #define izquierda_2 ":/jugadores/sprites/2flechai.png"
+#define flechad ":/images/flecha.png"
+#define flechai ":/images/flecha2.png"
 #define enemigoDere ":/jugadores/sprites/fantasmader.png"
 #define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
 
@@ -53,7 +49,6 @@ public:
     ~MainWindow();
     void ePrincipal();
     void loadLevel(QString ruta, QGraphicsScene *escena);
-
     bool colParedes(QGraphicsItem *elemento);
 
 public slots:
@@ -65,9 +60,8 @@ private slots:
     void funcAcceder();
     void ene1();
     void movEnemigo();
-
     void level1();
-    //void movimientoflecha();//aplicar movimiento parabolico
+    void movimientoflecha();//aplicar movimiento parabolico
     void level2();
    // void level3();
 protected:
@@ -86,12 +80,11 @@ private:
     QTimer *timer;
     QVector<Enemigo*>enemigos1;
 
-
-
     Pared *pared1;
     personajes *jugador1,*jugador2;
-    flecha *tirarflecha1,*tirarflecha2;
+    flecha *tirarflecha;
     int posx1=10,posy1=0,posx2=50,posy2=0;
+    bool Pos;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;

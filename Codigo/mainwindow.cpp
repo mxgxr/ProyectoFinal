@@ -210,51 +210,84 @@ void MainWindow::level2()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){
-    QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2);
+    QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2),pintura5(flechad),pintura6(flechai);
     switch (movimiento->key()) {
     case Qt::Key_A:
     {
         posx1-=5;
         jugador1->personajebrush=pintura2;
+        Pos=0;
     }
         break;
     case Qt::Key_D:
     {
         posx1+=5;
         jugador1->personajebrush=pintura1;
+        Pos=1;
     }
         break;
     case Qt::Key_H:
     {
         posx2-=5;
         jugador2->personajebrush=pintura4;
+        Pos=0;
     }
         break;
     case Qt::Key_K:
     {
         posx2+=5;
         jugador2->personajebrush=pintura3;
+        Pos=1;
     }
         break;
     case Qt::Key_F:
     {
-        tirarflecha1= new flecha(posx1+35,posy1);
-        scene9->addItem(tirarflecha1);
-        /*
-        flecham=new QTimer(this);
-        connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-        flecham->start(100);
-        */
+        if(Pos==0){
+            tirarflecha= new flecha(posx1-35,posy1+25,0);
+            tirarflecha->flechabrush=pintura6;
+            scene9->addItem(tirarflecha);
+            flecham=new QTimer(this);
+            connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            flecham->start(80);
+        }
+        else if(Pos==1){
+            tirarflecha= new flecha(posx1+35,posy1+25,1);
+            tirarflecha->flechabrush=pintura5;
+            scene9->addItem(tirarflecha);
+            flecham=new QTimer(this);
+            connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            flecham->start(80);
+        }
     }
         break;
     case Qt::Key_G:
     {
-        tirarflecha2= new flecha(posx2+35,posy2);
-        scene9->addItem(tirarflecha2);
+        if(Pos==0){
+            tirarflecha= new flecha(posx2-35,posy2+25,0);
+            tirarflecha->flechabrush=pintura6;
+            scene9->addItem(tirarflecha);
+            flecham=new QTimer(this);
+            connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            flecham->start(80);
+        }
+        else if(Pos==1){
+            tirarflecha= new flecha(posx2+35,posy2+25,1);
+            tirarflecha->flechabrush=pintura5;
+            scene9->addItem(tirarflecha);
+            flecham=new QTimer(this);
+            connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            flecham->start(80);
+        }
     }
         break;
     }
     jugador1->setPos(posx1,posy1);
     jugador2->setPos(posx2,posy2);
 }
-
+void MainWindow::movimientoflecha(){
+    tirarflecha->calcularPos();
+    if(tirarflecha->posy>tirarflecha->Yinicial){
+        flecham->stop();
+        tirarflecha->hide();
+    }
+}

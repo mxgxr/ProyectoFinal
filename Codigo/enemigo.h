@@ -13,9 +13,10 @@ class Enemigo : public QGraphicsItem, public QObject
 {
 private:
     double posx,posy,vel,velx,vely,angulo,maxX,minX;
+    int vidas;
 public:
     QPixmap enemigoBrush;
-    Enemigo(double x, double y, double ang, double max, double mix, QPixmap brush);
+    Enemigo(double x, double y, double ang, double max, double mix, QPixmap brush, int vid);
     void cVelocidad();
     void cPosicion();
     QRectF boundingRect() const ;
@@ -25,6 +26,8 @@ public:
     double getPosy() const;
     double getMaxX() const;
     double getMinX() const;
+    double getVidas() const;
+    void setVidas();
 };
 
 #endif // ENEMIGO_H

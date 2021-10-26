@@ -4,11 +4,11 @@ puerta::puerta(int x,int y)
 {
     posx=x;
     posy=y;
-    setPos(posx,posy);
+    setPos(posx,-posy);
 }
 QRectF puerta::boundingRect() const
 {
-    return QRectF(-5,-5,60,50);
+    return QRectF(-30,-25,60,50);
 }
 
 void puerta::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

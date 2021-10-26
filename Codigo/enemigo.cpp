@@ -25,13 +25,24 @@ double Enemigo::getMinX() const
     return minX;
 }
 
-Enemigo::Enemigo(double x, double y, double ang, double max, double mix, QPixmap brush)
+double Enemigo::getVidas() const
+{
+    return vidas;
+}
+
+void Enemigo::setVidas()
+{
+    vidas--;
+}
+
+Enemigo::Enemigo(double x, double y, double ang, double max, double mix, QPixmap brush, int vid)
 {
     this->posx=x;
     this->posy=y;
     this->angulo=(ang*3.141598)/180;
     this->maxX=max;
     this->minX=mix;
+    this->vidas=vid;
     this->vel=10;
     enemigoBrush=brush;
     setPos(posx,-posy);

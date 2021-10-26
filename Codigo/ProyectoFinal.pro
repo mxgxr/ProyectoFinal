@@ -12,6 +12,7 @@ SOURCES += \
     dialog.cpp \
     enemigo.cpp \
     flecha.cpp \
+    llave.cpp \
     main.cpp \
     mainwindow.cpp \
     pared.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     dialog.h \
     enemigo.h \
     flecha.h \
+    llave.h \
     mainwindow.h \
     pared.h \
     personajes.h \

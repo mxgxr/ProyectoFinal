@@ -56,6 +56,7 @@ public:
     void ePrincipal();
     void loadLevel(QString ruta, QGraphicsScene *escena);
     bool colParedes(QGraphicsItem *elemento);
+    void colEnemigo(QGraphicsItem *elemento);
 
 public slots:
 
@@ -85,10 +86,10 @@ private:
     Dialog *ventana1, *ventana2;
     Enemigo *enemigo1, *enemigo2;
     QTimer *timer, *timer2;
-
     QVector<Enemigo*>enemigos1;
     Resorte *resorte1;
     double tiempo=0;
+    puerta *puerta1;
 
     Pared *pared1;
     personajes *jugador1,*jugador2;

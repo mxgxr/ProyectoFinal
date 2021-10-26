@@ -24,6 +24,7 @@
 #include "personajes.h"
 #include "flecha.h"
 #include "llave.h"
+#include "puerta.h"
 
 #define jugador_1 ":/jugadores/sprites/1personaje.png"
 #define jugador_2 ":/jugadores/sprites/2personaje.png"
@@ -63,6 +64,7 @@ private slots:
     void movEnemigo();
     void level1();
     void movimientoflecha();//aplicar movimiento parabolico
+    //void movimientollave();//aplicar movimiento circular
     void level2();
    // void level3();
 protected:
@@ -90,6 +92,7 @@ private:
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;
     llave *key;
+    puerta *abrirpuerta;
 
     Ui::MainWindow *ui;
     //QGraphicsScene *scene9;

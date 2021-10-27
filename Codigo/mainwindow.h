@@ -34,8 +34,6 @@
 #define izquierda_1 ":/jugadores/sprites/1flechai.png"
 #define derecha_2 ":/jugadores/sprites/2flechad.png"
 #define izquierda_2 ":/jugadores/sprites/2flechai.png"
-#define flechad ":/images/flecha.png"
-#define flechai ":/images/flecha2.png"
 #define enemigoDere ":/jugadores/sprites/fantasmader.png"
 #define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
 #define comprimido ":/jugadores/sprites/resortecomprimido.png"
@@ -70,9 +68,15 @@ private slots:
     void movEnemigo();
     void movResorte();
     void level1();
-    void movimientoflecha();//aplicar movimiento parabolico
+
+   
     void movFuego();
-    //void movimientollave();//aplicar movimiento circular
+   
+
+    void movimientoflecha();//aplicar movimiento semicircular
+    void movimientollave();//aplicar movimiento circular
+    //void saltopersonaje();
+
     void level2();
    // void level3();
 protected:
@@ -98,11 +102,12 @@ private:
     Pared *pared1;
     personajes *jugador1,*jugador2;
     flecha *tirarflecha;
-    int posx1=10,posy1=0,posx2=50,posy2=0;
+    int posx1,posy1,posx2,posy2;
     bool Pos;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;
+    QTimer *llavem;
     llave *key;
     puerta *abrirpuerta;
 

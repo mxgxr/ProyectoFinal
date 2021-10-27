@@ -3,7 +3,7 @@
 personajes::personajes(int x,int y,QPixmap brush)
 {
     personajebrush=brush;
-    setPos(x,-y);
+    setPos(x,y);
 }
 QRectF personajes::boundingRect() const
 {

@@ -260,10 +260,19 @@ void MainWindow::level1()
     loadLevel("../level1.txt",scene4);
 
     QPixmap pintura1(jugador_1),pintura2(jugador_2),pintura3(enemigoDere),pintura4(enemigoIzq);
-    jugador1 = new personajes(-455,-220,pintura1);
-    jugador2 = new personajes(-395,-220,pintura2);
+    posx1=-455;
+    posy1=220;
+    posx2=-395;
+    posy2=220;
+    jugador1 = new personajes(posx1,posy1,pintura1);
+    jugador2 = new personajes(posx2,posy2,pintura2);
+    key= new llave(-455,220);
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
+    scene4->addItem(key);
+    llavem= new QTimer();
+    connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
+    llavem->start(30);
 
     enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3,2));
     scene4->addItem(enemigos1.back());
@@ -307,6 +316,9 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         posx1-=5;
         jugador1->personajebrush=pintura2;
+        if(colParedes(jugador1)){
+            posx1+=10;
+        }
         Pos=0;
     }
         break;
@@ -314,6 +326,9 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         posx1+=5;
         jugador1->personajebrush=pintura1;
+        if(colParedes(jugador1)){
+            posx1-=10;
+        }
         Pos=1;
     }
         break;
@@ -321,6 +336,9 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         posx2-=5;
         jugador2->personajebrush=pintura4;
+        if(colParedes(jugador2)){
+            posx2+=10;
+        }
         Pos=0;
     }
         break;
@@ -328,6 +346,9 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         posx2+=5;
         jugador2->personajebrush=pintura3;
+        if(colParedes(jugador2)){
+            posx2-=10;
+        }
         Pos=1;
     }
         break;
@@ -383,4 +404,7 @@ void MainWindow::movimientoflecha(){
         flecham->stop();
         tirarflecha->hide();
     }
+}
+void MainWindow::movimientollave(){
+    key->movimiento();
 }

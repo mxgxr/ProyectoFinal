@@ -75,7 +75,8 @@ private slots:
 
     void movimientoflecha();//aplicar movimiento semicircular
     void movimientollave();//aplicar movimiento circular
-    //void saltopersonaje();
+    void saltopersonaje1();
+    void saltopersonaje2();
 
     void level2();
    // void level3();
@@ -99,15 +100,16 @@ private:
     puerta *puerta1;
     QVector<fuego*>fuegos;
 
-    Pared *pared1;
+    Pared *pared;
     personajes *jugador1,*jugador2;
     flecha *tirarflecha;
-    int posx1,posy1,posx2,posy2;
-    bool Pos;
+    int posx1,posy1,posx2,posy2,limite;
+    bool Pos,direccion;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;
     QTimer *llavem;
+    QTimer *salto;
     llave *key;
     puerta *abrirpuerta;
 

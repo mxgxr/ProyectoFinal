@@ -340,6 +340,24 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         Pos=1;
     }
         break;
+    case Qt::Key_W:
+    {
+        direccion=true;
+        limite=posy1-30;
+        salto=new QTimer(this);
+        connect(salto,SIGNAL(timeout()),this,SLOT(saltopersonaje1()));
+        salto->start(80);
+    }
+        break;
+    case Qt::Key_U:
+    {
+        direccion=true;
+        limite=posy2-30;
+        salto=new QTimer(this);
+        connect(salto,SIGNAL(timeout()),this,SLOT(saltopersonaje2()));
+        salto->start(80);
+    }
+        break;
     case Qt::Key_F:
     {
         if(Pos==0){
@@ -430,8 +448,50 @@ void MainWindow::movFuego()
             fuegos.erase(it);
         }
     }
+}
 
 void MainWindow::movimientollave(){
     key->movimiento();
-
+}
+void MainWindow::saltopersonaje1(){
+    if(direccion){
+        jugador1->arriba();
+        posy1=jugador1->posy;
+        jugador1->setPos(posx1,posy1);
+        if(colParedes(jugador1)){
+            direccion=false;
+        }
+        else if(posy1==limite){
+            direccion=false;
+        }
+    }
+    else if(!direccion){
+        jugador1->abajo();
+        posy1=jugador1->posy;
+        jugador1->setPos(posx1,posy1);
+        if(colParedes(jugador1)){
+            salto->stop();
+        }
+    }
+}
+void MainWindow::saltopersonaje2(){
+    if(direccion){
+        jugador2->arriba();
+        posy2=jugador2->posy;
+        jugador2->setPos(posx2,posy2);
+        if(colParedes(jugador2)){
+            direccion=false;
+        }
+        else if(posy2==limite){
+            direccion=false;
+        }
+    }
+    else if(!direccion){
+        jugador2->abajo();
+        posy2=jugador2->posy;
+        jugador2->setPos(posx2,posy2);
+        if(colParedes(jugador2)){
+            salto->stop();
+        }
+    }
 }

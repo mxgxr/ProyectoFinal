@@ -33,8 +33,6 @@
 #define izquierda_1 ":/jugadores/sprites/1flechai.png"
 #define derecha_2 ":/jugadores/sprites/2flechad.png"
 #define izquierda_2 ":/jugadores/sprites/2flechai.png"
-#define flechad ":/images/flecha.png"
-#define flechai ":/images/flecha2.png"
 #define enemigoDere ":/jugadores/sprites/fantasmader.png"
 #define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
 #define comprimido ":/jugadores/sprites/resortecomprimido.png"
@@ -68,7 +66,7 @@ private slots:
     void movEnemigo();
     void movResorte();
     void level1();
-    void movimientoflecha();//aplicar movimiento parabolico
+    void movimientoflecha();//aplicar movimiento semicircular
     void movimientollave();//aplicar movimiento circular
     //void saltopersonaje();
     void level2();

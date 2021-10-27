@@ -8,7 +8,7 @@ puerta::puerta(int x,int y)
 }
 QRectF puerta::boundingRect() const
 {
-    return QRectF(-30,-25,60,50);
+    return QRectF(-30,-25,80,50);
 }
 
 void puerta::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

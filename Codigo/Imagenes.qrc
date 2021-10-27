@@ -8,7 +8,11 @@
         <file>images/letrero2.jpg</file>
         <file>images/llave.png</file>
         <file>images/puerta.png</file>
+
+        <file>images/fueguito.png</file>
+
         <file>images/flecha.png</file>
         <file>images/flecha2.png</file>
+
     </qresource>
 </RCC>

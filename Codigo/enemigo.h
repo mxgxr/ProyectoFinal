@@ -28,6 +28,7 @@ public:
     double getMinX() const;
     double getVidas() const;
     void setVidas();
+    double getAngulo() const;
 };
 
 #endif // ENEMIGO_H

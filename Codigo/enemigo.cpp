@@ -35,6 +35,11 @@ void Enemigo::setVidas()
     vidas--;
 }
 
+double Enemigo::getAngulo() const
+{
+    return angulo;
+}
+
 Enemigo::Enemigo(double x, double y, double ang, double max, double mix, QPixmap brush, int vid)
 {
     this->posx=x;

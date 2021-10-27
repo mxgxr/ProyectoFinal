@@ -169,6 +169,7 @@ bool MainWindow::colPersonaje(QGraphicsItem *elemento)
     QList<personajes*>::iterator per;
     for(per=jugadores.begin();per!=jugadores.end();per++){
         if((*per)->collidesWithItem(elemento)){
+            (*per)->setVida();
             return true;
         }
     }
@@ -193,6 +194,7 @@ void MainWindow::funcRegistro()
     scene1->addWidget(regist);
     if(users->Registrar(ventana1->getUsuario(),ventana1->getContra())){
         regist->setText("Usuario registrado correctamente");
+        users->Guardar();
     }
     else {
         regist->setText("No se pudo registrar correctamente");
@@ -240,6 +242,20 @@ void MainWindow::level1()
     timer2 = new QTimer(this);
     timer2->start(1000);
 
+    vida1 = new QLCDNumber();
+    vida1->setDecMode();
+    vida1->setGeometry(-500,-255,20,30);
+    vida1->setDigitCount(2);
+    vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida1->show();
+
+    vida2 = new QLCDNumber();
+    vida2->setDecMode();
+    vida2->setGeometry(-420,-255,20,30);
+    vida2->setDigitCount(2);
+    vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida2->show();
+
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
@@ -252,11 +268,17 @@ void MainWindow::level1()
     posy1=220;
     posx2=-395;
     posy2=220;
-    jugador1 = new personajes(posx1,posy1,pintura1);
-    jugador2 = new personajes(posx2,posy2,pintura2);
+    jugador1 = new personajes(posx1,posy1,pintura1,10);
+    vida1->display(jugador1->getVida());
+
+    jugador2 = new personajes(posx2,posy2,pintura2,10);
+    vida2->display(jugador2->getVida());
     key= new llave(-455,220);
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
+    scene4->addWidget(vida1);
+    scene4->addWidget(vida2);
+
     scene4->addItem(key);
     llavem= new QTimer();
     connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
@@ -291,8 +313,8 @@ void MainWindow::level2()
 
 
     QPixmap pintura1(jugador_1),pintura2(jugador_2);
-    jugador1= new personajes(10,0,pintura1);
-    jugador2= new personajes(50,0,pintura2);
+    jugador1= new personajes(10,0,pintura1,12);
+    jugador2= new personajes(50,0,pintura2,12);
     scene5->addItem(jugador1);
     scene5->addItem(jugador2);
 }
@@ -348,7 +370,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
-            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
+            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
 
           
@@ -360,7 +382,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
-            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
+            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
 
            
@@ -376,7 +398,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
-            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
+            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
 
             
@@ -388,7 +410,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
-            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
+            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
 
          
@@ -404,6 +426,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
 void MainWindow::movimientoflecha(){
     tirarflecha->calcularPos();
     colEnemigo(tirarflecha);
+    colPersonaje(tirarflecha);
     if(tirarflecha->Yfinal>tirarflecha->Yinicial){
         flecham->stop();
         tirarflecha->hide();
@@ -430,8 +453,10 @@ void MainWindow::movFuego()
             fuegos.erase(it);
         }
     }
+}
 
-void MainWindow::movimientollave(){
+void MainWindow::movimientollave()
+{
     key->movimiento();
 
 }

@@ -16,6 +16,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <iterator>
+#include <QLCDNumber>
 
 #include "dialog.h"
 #include "pared.h"
@@ -98,6 +99,7 @@ private:
     double tiempo=0;
     puerta *puerta1;
     QVector<fuego*>fuegos;
+    QLCDNumber *vida1, *vida2;
 
     Pared *pared1;
     personajes *jugador1,*jugador2;

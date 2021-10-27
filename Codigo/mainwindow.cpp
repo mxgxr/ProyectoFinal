@@ -310,7 +310,7 @@ void MainWindow::level2()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){
-    QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2),pintura5(flechad),pintura6(flechai);
+    QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2);
     switch (movimiento->key()) {
     case Qt::Key_A:
     {
@@ -355,40 +355,36 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     case Qt::Key_F:
     {
         if(Pos==0){
-            tirarflecha= new flecha(posx1-35,posy1+25,0);
-            tirarflecha->flechabrush=pintura6;
+            tirarflecha= new flecha(posx1-60,posy1+25,0);
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-            flecham->start(80);
+            flecham->start(50);
         }
         else if(Pos==1){
-            tirarflecha= new flecha(posx1+35,posy1+25,1);
-            tirarflecha->flechabrush=pintura5;
+            tirarflecha= new flecha(posx1+60,posy1+25,1);
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-            flecham->start(80);
+            flecham->start(50);
         }
     }
         break;
     case Qt::Key_G:
     {
         if(Pos==0){
-            tirarflecha= new flecha(posx2-35,posy2+25,0);
-            tirarflecha->flechabrush=pintura6;
+            tirarflecha= new flecha(posx2-60,posy2+25,0);
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-            flecham->start(80);
+            flecham->start(50);
         }
         else if(Pos==1){
-            tirarflecha= new flecha(posx2+35,posy2+25,1);
-            tirarflecha->flechabrush=pintura5;
+            tirarflecha= new flecha(posx2+60,posy2+25,1);
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-            flecham->start(80);
+            flecham->start(50);
         }
     }
         break;
@@ -400,7 +396,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
 void MainWindow::movimientoflecha(){
     tirarflecha->calcularPos();
     colEnemigo(tirarflecha);
-    if(tirarflecha->posy>tirarflecha->Yinicial){
+    if(tirarflecha->Yfinal>tirarflecha->Yinicial){
         flecham->stop();
         tirarflecha->hide();
     }

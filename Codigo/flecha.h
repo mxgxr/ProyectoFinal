@@ -5,15 +5,17 @@
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QPixmap>
-#include <math.h>
-#define P -30
+#include <qmath.h>
+#define flechad ":/images/flecha.png"
+#define flechai ":/images/flecha2.png"
 
 class flecha : public QGraphicsItem
 {
 private:
-    double verticeH,verticeK,pos,avanza;
+     float radianes,A,grados;
+     int pos;
 public:
-    double posx,posy,Yinicial;
+    double posx,posy,Yinicial,Yfinal;
     flecha(int,int,int);
     QPixmap flechabrush;
     QRectF boundingRect() const;

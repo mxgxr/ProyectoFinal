@@ -15,7 +15,11 @@ void personajes::setVida()
 personajes::personajes(int x, int y, QPixmap brush, int v)
 {
     personajebrush=brush;
+
     this->vida=v;
+
+    posy=y;
+
     setPos(x,y);
 }
 QRectF personajes::boundingRect() const
@@ -28,4 +32,10 @@ void personajes::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     painter->setPen(QColor(255,255,255,0));
     painter->drawRect(boundingRect());
     painter->drawPixmap(boundingRect(), personajebrush, personajebrush.rect());
+}
+void personajes::arriba(){
+    posy-=6;
+}
+void personajes::abajo(){
+    posy+=8;
 }

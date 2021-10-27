@@ -14,8 +14,13 @@ public:
     personajes(int,int,QPixmap,int);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+
     int getVida() const;
     void setVida();
+
+    void arriba();
+    void abajo();
+
 };
 
 #endif // PERSONAJES_H

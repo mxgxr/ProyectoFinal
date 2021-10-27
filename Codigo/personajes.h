@@ -9,13 +9,18 @@
 class personajes:public QGraphicsItem
 { 
 public:
-    int posx,posy;
+    int posx,posy,vida;
     QPixmap personajebrush;
-    personajes(int,int,QPixmap);
+    personajes(int,int,QPixmap,int);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
+
+    int getVida() const;
+    void setVida();
+
     void arriba();
     void abajo();
+
 };
 
 #endif // PERSONAJES_H

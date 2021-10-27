@@ -1,9 +1,25 @@
 #include "personajes.h"
 
-personajes::personajes(int x,int y,QPixmap brush)
+int personajes::getVida() const
+{
+    return vida;
+}
+
+void personajes::setVida()
+{
+    if(vida-1>=0){
+        vida = vida--;
+    }
+}
+
+personajes::personajes(int x, int y, QPixmap brush, int v)
 {
     personajebrush=brush;
+
+    this->vida=v;
+
     posy=y;
+
     setPos(x,y);
 }
 QRectF personajes::boundingRect() const

@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
-    //QPixmap pintura3(enemigoDere);
-    //enemigo1 = new Enemigo(150,-245,180,pintura3);
     ePrincipal();
 
 
@@ -160,9 +158,21 @@ void MainWindow::colEnemigo(QGraphicsItem *elemento)
             (*iter)->setVidas();
             if((*iter)->getVidas()==0){
                 scene4->removeItem((*iter));
+                enemigos1.erase(iter);
             }
         }
     }
+}
+
+bool MainWindow::colPersonaje(QGraphicsItem *elemento)
+{
+    QList<personajes*>::iterator per;
+    for(per=jugadores.begin();per!=jugadores.end();per++){
+        if((*per)->collidesWithItem(elemento)){
+            return true;
+        }
+    }
+    return false;
 }
 
 void MainWindow::eRegistro()
@@ -173,28 +183,6 @@ void MainWindow::eRegistro()
     ventana1->show();
     connect(ventana1, SIGNAL (back()),this, SLOT (funcRegistro()));
 
-    /*scene3 = new QGraphicsScene();
-
-    ui->graphicsView->setScene(scene3);
-
-    scene3->setSceneRect(0,0,1000,600);
-    scene3->addPixmap(QPixmap::fromImage(*letrero2));
-    aceptarR = new QPushButton("Aceptar");
-    aceptarR->setGeometry(50,300,200,50);
-    scene3->addWidget(aceptarR);
-    usuario1 = new QLineEdit();
-    usuario1->setGeometry(50,100,100,50);
-    usuario1->setMaxLength(10);
-    scene3->addWidget(usuario1);
-    contra = new QLineEdit();
-    contra->setGeometry(50,200,100,50);
-    contra->setMaxLength(10);
-    scene3->addWidget(contra);
-    ui->graphicsView->show();
-
-
-
-    connect(aceptarR, SIGNAL (clicked()),this, SLOT (funcRegistro()));*/
 }
 
 void MainWindow::funcRegistro()
@@ -339,6 +327,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(80);
         }
         else if(Pos==1){
@@ -347,6 +336,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(80);
         }
     }
@@ -359,6 +349,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(80);
         }
         else if(Pos==1){
@@ -367,6 +358,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             scene4->addItem(tirarflecha);
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
+            connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(80);
         }
     }
@@ -382,5 +374,26 @@ void MainWindow::movimientoflecha(){
     if(tirarflecha->posy>tirarflecha->Yinicial){
         flecham->stop();
         tirarflecha->hide();
+    }
+}
+
+void MainWindow::movFuego()
+{
+    QVector<Enemigo*>::iterator iter;
+    for(iter=enemigos1.begin(); iter!=enemigos1.end(); iter++){
+        fuegos.push_back(new fuego((*iter)->getPosx(),(*iter)->getPosy(),(*iter)->getAngulo()));
+        scene4->addItem(fuegos.back());
+    }
+    QVector<fuego*>::iterator it;
+    for(it=fuegos.begin(); it!=fuegos.end(); it++){
+        (*it)->cPosicion();
+        if(colPersonaje((*it))){
+            scene4->removeItem((*it));
+            fuegos.erase(it);
+        }
+        else if(colParedes((*it))){
+            scene4->removeItem((*it));
+            fuegos.erase(it);
+        }
     }
 }

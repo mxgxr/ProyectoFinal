@@ -26,6 +26,7 @@
 #include "flecha.h"
 #include "llave.h"
 #include "puerta.h"
+#include "fuego.h"
 
 #define jugador_1 ":/jugadores/sprites/1personaje.png"
 #define jugador_2 ":/jugadores/sprites/2personaje.png"
@@ -57,6 +58,7 @@ public:
     void loadLevel(QString ruta, QGraphicsScene *escena);
     bool colParedes(QGraphicsItem *elemento);
     void colEnemigo(QGraphicsItem *elemento);
+    bool colPersonaje(QGraphicsItem *elemento);
 
 public slots:
 
@@ -69,6 +71,7 @@ private slots:
     void movResorte();
     void level1();
     void movimientoflecha();//aplicar movimiento parabolico
+    void movFuego();
     //void movimientollave();//aplicar movimiento circular
     void level2();
    // void level3();
@@ -90,6 +93,7 @@ private:
     Resorte *resorte1;
     double tiempo=0;
     puerta *puerta1;
+    QVector<fuego*>fuegos;
 
     Pared *pared1;
     personajes *jugador1,*jugador2;

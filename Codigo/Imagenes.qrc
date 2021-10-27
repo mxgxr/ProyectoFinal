@@ -10,5 +10,6 @@
         <file>images/flecha2.png</file>
         <file>images/llave.png</file>
         <file>images/puerta.png</file>
+        <file>images/fueguito.png</file>
     </qresource>
 </RCC>

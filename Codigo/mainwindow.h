@@ -69,7 +69,8 @@ private slots:
     void movResorte();
     void level1();
     void movimientoflecha();//aplicar movimiento parabolico
-    //void movimientollave();//aplicar movimiento circular
+    void movimientollave();//aplicar movimiento circular
+    //void saltopersonaje();
     void level2();
    // void level3();
 protected:
@@ -94,11 +95,12 @@ private:
     Pared *pared1;
     personajes *jugador1,*jugador2;
     flecha *tirarflecha;
-    int posx1=10,posy1=0,posx2=50,posy2=0;
+    int posx1,posy1,posx2,posy2;
     bool Pos;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;
+    QTimer *llavem;
     llave *key;
     puerta *abrirpuerta;
 

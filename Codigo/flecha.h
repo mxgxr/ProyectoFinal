@@ -11,7 +11,7 @@
 class flecha : public QGraphicsItem
 {
 private:
-    double verticeH,verticeK,pos;
+    double verticeH,verticeK,pos,avanza;
 public:
     double posx,posy,Yinicial;
     flecha(int,int,int);

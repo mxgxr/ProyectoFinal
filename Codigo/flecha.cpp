@@ -18,7 +18,7 @@ flecha::flecha(int x, int y, int posflecha)
 }
 QRectF flecha::boundingRect() const
 {
-    return QRectF(-5,-5,25,8);
+    return QRectF(-5,-5,30,12);
 }
 
 void flecha::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

@@ -275,10 +275,13 @@ bool MainWindow::colPersonaje(QGraphicsItem *elemento)
 void MainWindow::colPuerta(){
     if(key->collidesWithItem(puerta1)){
         if(level==1){
-            level2();
+            eFinLevel();
         }
-        if(level==2){
-            level3();
+        else if(level==2){
+            eFinLevel();
+        }
+        else if(level==3){
+            eEndGame();
         }
     }
 }

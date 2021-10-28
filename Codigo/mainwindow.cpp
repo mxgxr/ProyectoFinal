@@ -374,6 +374,15 @@ void MainWindow::mostrarllave(){
     connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
     llavem->start(30);
 }
+
+void MainWindow::createFuego(QGraphicsScene *scene)
+{
+    QVector<Enemigo*>::iterator iterEnemigos;
+    for(iterEnemigos=enemigos1.begin(); iterEnemigos!=enemigos1.end(); iterEnemigos++){
+        fuegos.push_back(new fuego((*iterEnemigos)->getPosx(),(*iterEnemigos)->getPosy(),(*iterEnemigos)->getAngulo()));
+        scene->addItem(fuegos.back());
+    }
+}
 void MainWindow::level1()
 {
     timer = new QTimer(this);
@@ -521,18 +530,23 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             tirarflecha= new flecha(posx1-60,posy1+25,0);
             if(users->getLevel(ventana2->getUsuario())=="1"){
                 scene4->addItem(tirarflecha);
+                createFuego(scene4);
             }
             else if(users->getLevel(ventana2->getUsuario())=="2"){
                 scene5->addItem(tirarflecha);
+                createFuego(scene5);
             }
             else if(users->getLevel(ventana2->getUsuario())=="3"){
                 scene6->addItem(tirarflecha);
+                createFuego(scene6);
             }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-
-            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
+
+            fuegotimer=new QTimer(this);
+            fuegotimer->start(1000);
+            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
           
 
@@ -541,18 +555,23 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             tirarflecha= new flecha(posx1+60,posy1+25,1);
             if(users->getLevel(ventana2->getUsuario())=="1"){
                 scene4->addItem(tirarflecha);
+                createFuego(scene4);
             }
             else if(users->getLevel(ventana2->getUsuario())=="2"){
                 scene5->addItem(tirarflecha);
+                createFuego(scene5);
             }
             else if(users->getLevel(ventana2->getUsuario())=="3"){
                 scene6->addItem(tirarflecha);
+                createFuego(scene6);
             }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-
-            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
+
+            fuegotimer=new QTimer(this);
+            fuegotimer->start(1000);
+            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
            
 
@@ -575,9 +594,11 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-
-            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
+
+            fuegotimer=new QTimer(this);
+            fuegotimer->start(1000);
+            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
             
 
@@ -596,9 +617,11 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
 
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
-
-            //connect(flecham, SIGNAL(timeout()),this,SLOT(movFuego()));
             flecham->start(50);
+
+            fuegotimer=new QTimer(this);
+            fuegotimer->start(1000);
+            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
          
 
@@ -639,11 +662,6 @@ void MainWindow::movimientoflecha(){
 
 void MainWindow::movFuego()
 {
-    QVector<Enemigo*>::iterator iter;
-    for(iter=enemigos1.begin(); iter!=enemigos1.end(); iter++){
-        fuegos.push_back(new fuego((*iter)->getPosx(),(*iter)->getPosy(),(*iter)->getAngulo()));
-        scene4->addItem(fuegos.back());
-    }
     QVector<fuego*>::iterator it;
     for(it=fuegos.begin(); it!=fuegos.end(); it++){
         (*it)->cPosicion();

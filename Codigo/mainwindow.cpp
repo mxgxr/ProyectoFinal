@@ -258,13 +258,17 @@ bool MainWindow::colParedes(QGraphicsItem *elemento)
 void MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
 {
     QVector<Enemigo*>::iterator iter;
-
+    int cont=0;
     for(iter=enemigos1.begin();iter!=enemigos1.end();iter++){
+        cont++;
         if((*iter)->collidesWithItem(elemento)){
             (*iter)->setVidas();
             if((*iter)->getVidas()==0){
                 scena->removeItem((*iter));
                 enemigos1.erase(iter);
+                if(cont==numero){
+                    mostrarllave();
+                }
             }
         }
     }
@@ -350,7 +354,26 @@ void MainWindow::funcAcceder()
     }
 
 }
-
+void MainWindow::esconderllave(){
+    int longi;
+    longi=enemigos1.length();
+    numero = 1 + rand() % (longi+1 - 1);
+}
+void MainWindow::mostrarllave(){
+    llaveshow=true;
+    if(numjugador==0){
+        key= new llave(posx1,posy1);
+        llavenum=0;
+    }
+    else if(numjugador==1){
+        key= new llave(posx2,posy2);
+        llavenum=1;
+    }
+    scene4->addItem(key);
+    llavem= new QTimer();
+    connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
+    llavem->start(30);
+}
 void MainWindow::level1()
 {
     timer = new QTimer(this);
@@ -379,27 +402,23 @@ void MainWindow::level1()
 
     jugador2 = new personajes(posx2,posy2,pintura2,10);
     vida2->display(jugador2->getVida());
-    key= new llave(-455,220);
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
     scene4->addWidget(vida1);
     scene4->addWidget(vida2);
-
-    scene4->addItem(key);
-    llavem= new QTimer();
-    connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
-    llavem->start(30);
 
     enemigos1.push_back(new Enemigo(150,-245,180,150,-430,pintura3,2));
     scene4->addItem(enemigos1.back());
     enemigos1.push_back(new Enemigo(-215,55,0,120,-215,pintura4,2));
     scene4->addItem(enemigos1.back());
 
-    resorte1 = new Resorte(-400,-120,90);
+    resorte1 = new Resorte(385,-150,60);
+
     scene4->addItem(resorte1);
 
     puerta1 = new puerta(330,230);
     scene4->addItem(puerta1);
+    esconderllave();
 
 
     salir->setGeometry(-475,-270,45,45);
@@ -497,6 +516,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         break;
     case Qt::Key_F:
     {
+        numjugador=0;
         if(Pos==0){
             tirarflecha= new flecha(posx1-60,posy1+25,0);
             if(users->getLevel(ventana2->getUsuario())=="1"){
@@ -541,6 +561,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         break;
     case Qt::Key_G:
     {
+        numjugador=1;
         if(Pos==0){
             tirarflecha= new flecha(posx2-60,posy2+25,0);
             if(users->getLevel(ventana2->getUsuario())=="1"){
@@ -587,6 +608,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     }
     jugador1->setPos(posx1,posy1);
     jugador2->setPos(posx2,posy2);
+    if(llavenum==0 and llaveshow){
+        key->posx=posx1;
+        key->posy=posy1;
+    }
+    if(llavenum==1 and llaveshow){
+        key->posx=posx2;
+        key->posy=posy2;
+    }
 }
 
 void MainWindow::movimientoflecha(){
@@ -638,6 +667,10 @@ void MainWindow::saltopersonaje1(){
         jugador1->arriba();
         posy1=jugador1->posy;
         jugador1->setPos(posx1,posy1);
+        if(llaveshow){
+            key->posx=posx1;
+            key->posy=posy1;
+        }
         if(colParedes(jugador1)){
             direccion=false;
         }
@@ -649,6 +682,10 @@ void MainWindow::saltopersonaje1(){
         jugador1->abajo();
         posy1=jugador1->posy;
         jugador1->setPos(posx1,posy1);
+        if(llaveshow){
+            key->posx=posx1;
+            key->posy=posy1;
+        }
         if(colParedes(jugador1)){
             salto->stop();
         }
@@ -659,6 +696,10 @@ void MainWindow::saltopersonaje2(){
         jugador2->arriba();
         posy2=jugador2->posy;
         jugador2->setPos(posx2,posy2);
+        if(llaveshow){
+            key->posx=posx2;
+            key->posy=posy2;
+        }
         if(colParedes(jugador2)){
             direccion=false;
         }
@@ -670,6 +711,10 @@ void MainWindow::saltopersonaje2(){
         jugador2->abajo();
         posy2=jugador2->posy;
         jugador2->setPos(posx2,posy2);
+        if(llaveshow){
+            key->posx=posx2;
+            key->posy=posy2;
+        }
         if(colParedes(jugador2)){
             salto->stop();
         }

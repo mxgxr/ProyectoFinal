@@ -17,6 +17,8 @@
 #include <QTextStream>
 #include <iterator>
 #include <QLCDNumber>
+#include <stdlib.h>
+#include <time.h>
 
 #include "dialog.h"
 #include "pared.h"
@@ -58,6 +60,8 @@ public:
     bool colParedes(QGraphicsItem *elemento);
     void colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena);
     bool colPersonaje(QGraphicsItem *elemento);
+    void esconderllave();
+    void mostrarllave();
 
 public slots:
 
@@ -107,8 +111,8 @@ private:
     Pared *pared;
     personajes *jugador1,*jugador2;
     flecha *tirarflecha;
-    int posx1,posy1,posx2,posy2,limite;
-    bool Pos,direccion;
+    int posx1,posy1,posx2,posy2,limite,numero;
+    bool Pos,direccion,numjugador,llaveshow=false,llavenum;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
     QTimer *flecham;

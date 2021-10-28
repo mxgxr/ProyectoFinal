@@ -9,10 +9,9 @@
 class llave:public QGraphicsItem
 {
 private:
-    int posx,posy;
     float radianes,A,grados;
 public:
-    int pos;
+    int pos,posx,posy;
     llave(int,int);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);

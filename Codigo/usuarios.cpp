@@ -110,6 +110,21 @@ string Usuarios::getLevel(string nombre)
 
 }
 
+void Usuarios::setLevel(string nombre, string nivel)
+{
+    vector<vector<string>>::iterator iter;
+    vector<string>::iterator vecIt;
+
+    for(iter=users.begin(); iter!=users.end(); iter++){
+        vecIt=iter->begin();
+        if(*(vecIt)==nombre){
+            vecIt+=2;
+            (*vecIt)=nivel;
+        }
+   }
+
+}
+
 void Usuarios::Guardar()
 {
     ofstream fout;

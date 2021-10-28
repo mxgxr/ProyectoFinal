@@ -4,7 +4,8 @@ Resorte::Resorte(double x, double y, double a)
 {
     this->posx=x;
     this->posy=y;
-    this->amplitud=a;
+    this->posxi=x;
+    this->amplitud=a/2;
     setPos(posx,-posy);
 }
 
@@ -31,11 +32,16 @@ void Resorte::cFuerza()
 
 QRectF Resorte::boundingRect() const
 {
-    return QRectF(-10,-10,20,20);
+    return QRectF(-10,-20,20,40);
 }
+
+
 
 void Resorte::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::black);
+    painter->setPen(QColor(255,255,255,0));
     painter->drawRect(boundingRect());
+    QPixmap resortebrush(":/images/bloque.jpg");
+    painter->drawPixmap(boundingRect(), resortebrush, resortebrush.rect());
+
 }

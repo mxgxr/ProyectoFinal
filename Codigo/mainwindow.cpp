@@ -9,7 +9,30 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
+    salir = new QPushButton();
+    salir->setIcon(QIcon(":/images/botonsalir.png"));
+    salir->setIconSize(QSize(40,40));
+    regist = new QLabel();
+    regist->setGeometry(0,0,300,50);
+    regist->setStyleSheet("font: 12pt ;" "font: Modern;" "color: rgb(255, 0, 0);" "background-color: rgba(0,0,0,0%);");
+
+    vida1 = new QLCDNumber();
+    vida1->setDecMode();
+    vida1->setGeometry(-430,-255,20,30);
+    vida1->setDigitCount(2);
+    vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida1->show();
+
+    vida2 = new QLCDNumber();
+    vida2->setDecMode();
+    vida2->setGeometry(-350,-255,20,30);
+    vida2->setDigitCount(2);
+    vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida2->show();
+
+
     ePrincipal();
+
 
 
     //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
@@ -58,9 +81,88 @@ void MainWindow::ePrincipal()
     scene1->addWidget(title1);
 
 
-    connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro()));
-    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio()));
+
+    scene1->addWidget(regist);
+
+
+    connect(registrar, SIGNAL (clicked()),this, SLOT (eRegistro())); //eRegistro
+    connect(ingresar, SIGNAL (clicked()),this, SLOT (eInicio())); //eInicio
     /*connect(timer,SIGNAL(timeout()),this,SLOT(Mover()));*/
+}
+
+void MainWindow::eFinLevel()
+{
+    scene2 = new QGraphicsScene();
+
+    ui->graphicsView->setScene(scene2);
+    ui->graphicsView->show();
+    scene2->setSceneRect(0,0,1000,600);
+
+    letrero1 = new QImage(":/images/letrero1.jpg");
+    scene2->addPixmap(QPixmap::fromImage(*letrero1));
+
+    continuar = new QPushButton("Continuar");
+    continuar->setGeometry(350,320,300,50);
+    continuar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
+    //registrar->setGeometry(QRect(QPoint(0,100), QSize(300,100)));
+    scene2->addWidget(continuar);
+
+    abandonar = new QPushButton("Salir");
+    abandonar->setGeometry(QRect(QPoint(350,380), QSize(300,50)));
+    abandonar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
+    scene2->addWidget(abandonar);
+
+    title2 = new QLabel("Nivel superado");
+    title2->setGeometry(300,80,600,50);
+    title2->setStyleSheet("font: 30pt ;" "font: Modern;" "color: rgb(234, 190, 63);" "background-color: rgba(0,0,0,0%);" "font style: Negrita;");
+    scene2->addWidget(title2);
+
+    ui->graphicsView->show();
+
+    connect(abandonar, SIGNAL (clicked()),this, SLOT (ePrincipal()));
+
+    if(users->getLevel(ventana2->getUsuario())=="1"){
+        users->setLevel(ventana2->getUsuario(),"2");
+        users->Guardar();
+        connect(continuar, SIGNAL (clicked()),this, SLOT (level2()));
+    }
+    else if(users->getLevel(ventana2->getUsuario())=="2"){
+        users->setLevel(ventana2->getUsuario(),"3");
+        users->Guardar();
+        connect(continuar, SIGNAL (clicked()),this, SLOT (level3()));
+    }
+
+}
+
+void MainWindow::eEndGame()
+{
+    scene3 = new QGraphicsScene();
+
+    ui->graphicsView->setScene(scene3);
+    ui->graphicsView->show();
+    scene3->setSceneRect(0,0,1000,600);
+
+    letrero1 = new QImage(":/images/letrero1.jpg");
+    scene3->addPixmap(QPixmap::fromImage(*letrero1));
+
+
+    abandonar = new QPushButton("Salir");
+    abandonar->setGeometry(QRect(QPoint(350,380), QSize(300,50)));
+    abandonar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
+    scene2->addWidget(abandonar);
+
+    title2 = new QLabel("Fin del juego");
+    title2->setGeometry(300,80,600,50);
+    title2->setStyleSheet("font: 30pt ;" "font: Modern;" "color: rgb(234, 190, 63);" "background-color: rgba(0,0,0,0%);" "font style: Negrita;");
+    scene2->addWidget(title2);
+
+    users->setLevel(ventana2->getUsuario(),"4");
+    users->Guardar();
+
+    ui->graphicsView->show();
+
+    connect(abandonar, SIGNAL (clicked()),this, SLOT (ePrincipal()));
+
 }
 
 void MainWindow::loadLevel(QString ruta, QGraphicsScene *escena)
@@ -132,10 +234,14 @@ void MainWindow::movEnemigo()
 
 void MainWindow::movResorte()
 {
-    //QTime time = QTime::currentTime();
-    //double tiempo=time.toString().toDouble();
-    resorte1->cPosicion(tiempo);
-    tiempo++;
+    if(tiempo<=162){
+        tiempo+=18;
+    }
+    else{
+        tiempo=0;
+    }
+    trad=qDegreesToRadians(tiempo);
+    resorte1->cPosicion(trad);
 }
 
 bool MainWindow::colParedes(QGraphicsItem *elemento)
@@ -149,7 +255,7 @@ bool MainWindow::colParedes(QGraphicsItem *elemento)
     return false;
 }
 
-void MainWindow::colEnemigo(QGraphicsItem *elemento)
+void MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
 {
     QVector<Enemigo*>::iterator iter;
 
@@ -157,7 +263,7 @@ void MainWindow::colEnemigo(QGraphicsItem *elemento)
         if((*iter)->collidesWithItem(elemento)){
             (*iter)->setVidas();
             if((*iter)->getVidas()==0){
-                scene4->removeItem((*iter));
+                scena->removeItem((*iter));
                 enemigos1.erase(iter);
             }
         }
@@ -178,6 +284,8 @@ bool MainWindow::colPersonaje(QGraphicsItem *elemento)
 
 void MainWindow::eRegistro()
 {
+    regist->setVisible(false);
+
     ventana1 = new Dialog(this);
     ventana1->setModal(true);
 
@@ -189,15 +297,16 @@ void MainWindow::eRegistro()
 void MainWindow::funcRegistro()
 {
     ventana1->close();
-    regist = new QLabel();
-    regist->setGeometry(0,0,300,100);
-    scene1->addWidget(regist);
+
+
     if(users->Registrar(ventana1->getUsuario(),ventana1->getContra())){
         regist->setText("Usuario registrado correctamente");
+        regist->setVisible(true);
         users->Guardar();
     }
     else {
         regist->setText("No se pudo registrar correctamente");
+        regist->setVisible(true);
     }
 
 
@@ -205,6 +314,7 @@ void MainWindow::funcRegistro()
 
 void MainWindow::eInicio()
 {
+    regist->setVisible(false);
     ventana2 = new Dialog(this);
     ventana2->setModal(true);
 
@@ -216,10 +326,9 @@ void MainWindow::eInicio()
 void MainWindow::funcAcceder()
 {
     ventana2->close();
-    regist = new QLabel();
+
     string level;
-    regist->setGeometry(0,0,300,100);
-    scene1->addWidget(regist);
+
     if(users->Validar(ventana2->getUsuario(),ventana2->getContra())){
         level=users->getLevel(ventana2->getUsuario());
         if(level=="1"){
@@ -228,8 +337,15 @@ void MainWindow::funcAcceder()
         else if (level=="2"){
             level2();
         }
+        else if(level=="3"){
+
+        }
+        else if(level=="4"){
+            eEndGame();
+        }
     }
     else{
+        regist->setVisible(true);
         regist->setText("No se pudo acceder correctamente");
     }
 
@@ -240,26 +356,16 @@ void MainWindow::level1()
     timer = new QTimer(this);
     timer->start(10);
     timer2 = new QTimer(this);
-    timer2->start(1000);
+    timer2->start(100);
 
-    vida1 = new QLCDNumber();
-    vida1->setDecMode();
-    vida1->setGeometry(-500,-255,20,30);
-    vida1->setDigitCount(2);
-    vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
-    vida1->show();
-
-    vida2 = new QLCDNumber();
-    vida2->setDecMode();
-    vida2->setGeometry(-420,-255,20,30);
-    vida2->setDigitCount(2);
-    vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
-    vida2->show();
 
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
     scene4->setBackgroundBrush(Qt::darkGreen);
+
+    scene4->addWidget(salir);
+    salir->setGeometry(475,285,40,40);
 
     loadLevel("../level1.txt",scene4);
 
@@ -289,16 +395,23 @@ void MainWindow::level1()
     enemigos1.push_back(new Enemigo(-215,55,0,120,-215,pintura4,2));
     scene4->addItem(enemigos1.back());
 
-    resorte1 = new Resorte(385,-150,60);
+    resorte1 = new Resorte(-400,-120,90);
     scene4->addItem(resorte1);
 
-    puerta1 = new puerta(340,230);
+    puerta1 = new puerta(330,230);
     scene4->addItem(puerta1);
+
+
+    salir->setGeometry(-475,-270,45,45);
+    salir->setIcon(QIcon(":/images/botonsalir.png"));
+    salir->setIconSize(QSize(40,40));
+    salir->setStyleSheet("background-color: rgba(0,0,0,0%);");
+
+    scene4->addWidget(salir);
 
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
     connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
-    //connect(timer, SIGNAL(timeout()), this, SLOT(ene1()));
-
+    connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
 
     ui->graphicsView->show();
 }
@@ -317,6 +430,8 @@ void MainWindow::level2()
     jugador2= new personajes(50,0,pintura2,12);
     scene5->addItem(jugador1);
     scene5->addItem(jugador2);
+
+    ui->graphicsView->show();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){
@@ -384,7 +499,15 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         if(Pos==0){
             tirarflecha= new flecha(posx1-60,posy1+25,0);
-            scene4->addItem(tirarflecha);
+            if(users->getLevel(ventana2->getUsuario())=="1"){
+                scene4->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="2"){
+                scene5->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="3"){
+                scene6->addItem(tirarflecha);
+            }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
@@ -396,7 +519,15 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         }
         else if(Pos==1){
             tirarflecha= new flecha(posx1+60,posy1+25,1);
-            scene4->addItem(tirarflecha);
+            if(users->getLevel(ventana2->getUsuario())=="1"){
+                scene4->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="2"){
+                scene5->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="3"){
+                scene6->addItem(tirarflecha);
+            }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
@@ -412,7 +543,15 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     {
         if(Pos==0){
             tirarflecha= new flecha(posx2-60,posy2+25,0);
-            scene4->addItem(tirarflecha);
+            if(users->getLevel(ventana2->getUsuario())=="1"){
+                scene4->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="2"){
+                scene5->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="3"){
+                scene6->addItem(tirarflecha);
+            }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
@@ -424,7 +563,16 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         }
         else if(Pos==1){
             tirarflecha= new flecha(posx2+60,posy2+25,1);
-            scene4->addItem(tirarflecha);
+            if(users->getLevel(ventana2->getUsuario())=="1"){
+                scene4->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="2"){
+                scene5->addItem(tirarflecha);
+            }
+            else if(users->getLevel(ventana2->getUsuario())=="3"){
+                scene6->addItem(tirarflecha);
+            }
+
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
 
@@ -443,7 +591,15 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
 
 void MainWindow::movimientoflecha(){
     tirarflecha->calcularPos();
-    colEnemigo(tirarflecha);
+    if(users->getLevel(ventana2->getUsuario())=="1"){
+        colEnemigo(tirarflecha,scene4);
+    }
+    else if(users->getLevel(ventana2->getUsuario())=="2"){
+        colEnemigo(tirarflecha,scene5);
+    }
+    else if(users->getLevel(ventana2->getUsuario())=="3"){
+        colEnemigo(tirarflecha,scene6);
+    }
     colPersonaje(tirarflecha);
     if(tirarflecha->Yfinal>tirarflecha->Yinicial){
         flecham->stop();

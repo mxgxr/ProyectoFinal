@@ -493,7 +493,7 @@ void MainWindow::level2()
     scene5->addItem(resorte1);
 
     puerta1 = new puerta(-355,85);
-    //puerta1->setVisible(false);
+    puerta1->setVisible(false);
     scene5->addItem(puerta1);
     esconderllave();
 
@@ -590,6 +590,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador1)){
             posx1+=10;
         }
+        if(sceneaux==scene5){
+            if(jugador1->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador1->collidesWithItem(resorte1)){
+            posx1+=20;
+        }
         Pos=0;
     }
         break;
@@ -599,6 +607,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador1->personajebrush=pintura1;
         if(colParedes(jugador1)){
             posx1-=10;
+        }
+        if(sceneaux==scene5){
+            if(jugador1->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador1->collidesWithItem(resorte1)){
+            posx1-=20;
         }
         Pos=1;
     }
@@ -610,6 +626,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador2)){
             posx2+=10;
         }
+        if(sceneaux==scene5){
+            if(jugador2->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador2->collidesWithItem(resorte1)){
+            posx1+=20;
+        }
         Pos=0;
     }
         break;
@@ -619,6 +643,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador2->personajebrush=pintura3;
         if(colParedes(jugador2)){
             posx2-=10;
+        }
+        if(sceneaux==scene5){
+            if(jugador2->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador2->collidesWithItem(resorte1)){
+            posx1-=20;
         }
         Pos=1;
     }

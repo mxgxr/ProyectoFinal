@@ -34,21 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     ePrincipal();
 
 
-
-    //connect(registrar, SIGNAL (&QPushButton::clicked),this, SLOT (&MainWindow::eRegistro()));
-
-/*
-    scene9 = new QGraphicsScene();
-    ui->graphicsView->setScene(scene9);
-    scene9->setSceneRect(-500,-300,1000,600);
-    pared1 = new Pared(0,0,50);
-    QPixmap pintura1(jugador_1),pintura2(jugador_2);
-    jugadores.push_back(jugador1= new personajes(posx1,posy1,pintura1));
-    jugadores.push_back(jugador2= new personajes(posx2,posy2,pintura2));
-    scene9->addItem(pared1);
-    scene9->addItem(jugador1);
-    scene9->addItem(jugador2);*/
-
 }
 
 MainWindow::~MainWindow()
@@ -167,6 +152,7 @@ void MainWindow::eEndGame()
 
 void MainWindow::loadLevel(QString ruta, QGraphicsScene *escena)
 {
+    enemigos1.clear();
     QFile archivo(ruta);
     QString  strX="", strY="", strTam="";
     int x,y,tam,cont=0;
@@ -408,7 +394,7 @@ void MainWindow::level1()
     scene4 = new QGraphicsScene();
     ui->graphicsView->setScene(scene4);
     scene4->setSceneRect(-500,-300,1000,600);
-    scene4->setBackgroundBrush(Qt::darkGreen);
+    scene4->setBackgroundBrush(QPixmap(":/images/fondo1.jpg"));
 
     scene4->addWidget(salir);
     salir->setGeometry(475,285,40,40);
@@ -465,18 +451,67 @@ void MainWindow::level2()
     scene5 = new QGraphicsScene();
     ui->graphicsView->setScene(scene5);
     scene5->setSceneRect(-500,-300,1000,600);
+    scene5->setBackgroundBrush(QPixmap(":/images/fondo2.jpg"));
 
     loadLevel("../level2.txt",scene5);
 
+    timer = new QTimer(this);
+    timer->start(10);
+    timer2 = new QTimer(this);
+    timer2->start(100);
 
-    QPixmap pintura1(jugador_1),pintura2(jugador_2);
-    jugador1= new personajes(10,0,pintura1,12);
-    jugador2= new personajes(50,0,pintura2,12);
+    scene5->addWidget(salir);
+    salir->setGeometry(475,285,40,40);
+
+    QPixmap pintura1(jugador_1),pintura2(izquierda_2),pintura3(enemigoDere),pintura4(enemigoIzq);
+    posx1=-455;
+    posy1=220;
+    posx2=420;
+    posy2=220;
+
+    jugador1 = new personajes(posx1,posy1,pintura1,12);
+    vida1->display(jugador1->getVida());
+
+    jugador2 = new personajes(posx2,posy2,pintura2,12);
+    vida2->display(jugador2->getVida());
+
     scene5->addItem(jugador1);
     scene5->addItem(jugador2);
+    scene5->addWidget(vida1);
+    scene5->addWidget(vida2);
+
+    enemigos1.push_back(new Enemigo(-185,-245,180,-185,-450,pintura4,3));
+    scene5->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(175,-245,0,450,175,pintura3,3));
+    scene5->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(-215,85,180,-215,-395,pintura4,3));
+    scene5->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(115,85,180,115,-95,pintura4,3));
+    scene5->addItem(enemigos1.back());
+
+    resorte1 = new Resorte(355,85,60);
+    scene5->addItem(resorte1);
+
+    puerta1 = new puerta(-355,85);
+    puerta1->setVisible(false);
+    scene5->addItem(puerta1);
+    esconderllave();
+
+
+    salir->setGeometry(-475,-270,45,45);
+    salir->setIcon(QIcon(":/images/botonsalir.png"));
+    salir->setIconSize(QSize(40,40));
+    salir->setStyleSheet("background-color: rgba(0,0,0,0%);");
+
+    scene5->addWidget(salir);
+
+    connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
+    connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
+    connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
 
     ui->graphicsView->show();
 }
+
 void MainWindow::level3(){
     level=3;
     sceneaux=scene6;
@@ -485,19 +520,7 @@ void MainWindow::level3(){
     timer2 = new QTimer(this);
     timer2->start(1000);
 
-    vida1 = new QLCDNumber();
-    vida1->setDecMode();
-    vida1->setGeometry(-500,-255,20,30);
-    vida1->setDigitCount(2);
-    vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
-    vida1->show();
 
-    vida2 = new QLCDNumber();
-    vida2->setDecMode();
-    vida2->setGeometry(-420,-255,20,30);
-    vida2->setDigitCount(2);
-    vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
-    vida2->show();
 
     scene6 = new QGraphicsScene();
     ui->graphicsView->setScene(scene6);
@@ -511,29 +534,29 @@ void MainWindow::level3(){
     posy1=220;
     posx2=-395;
     posy2=220;
-    jugador1 = new personajes(posx1,posy1,pintura1,10);
+    jugador1 = new personajes(posx1,posy1,pintura1,14);
     vida1->display(jugador1->getVida());
 
-    jugador2 = new personajes(posx2,posy2,pintura2,10);
+    jugador2 = new personajes(posx2,posy2,pintura2,14);
     vida2->display(jugador2->getVida());
     scene6->addItem(jugador1);
     scene6->addItem(jugador2);
     scene6->addWidget(vida1);
     scene6->addWidget(vida2);
 
-    enemigos1.push_back(new Enemigo(-65,-255,180,-65,-435,pintura4,2));
+    enemigos1.push_back(new Enemigo(-65,-255,180,-65,-435,pintura4,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(5,-255,180,455,5,pintura4,2));
+    enemigos1.push_back(new Enemigo(5,-255,180,455,5,pintura4,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(85,-105,180,85,-215,pintura4,2));
+    enemigos1.push_back(new Enemigo(85,-105,180,85,-215,pintura4,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(-435,-15,180,-35,-435,pintura3,2));
+    enemigos1.push_back(new Enemigo(-435,-15,180,-35,-435,pintura3,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(-285,75,180,115,-285,pintura3,2));
+    enemigos1.push_back(new Enemigo(-285,75,180,115,-285,pintura3,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(465,-45,180,465,355,pintura4,2));
+    enemigos1.push_back(new Enemigo(465,-45,180,465,355,pintura4,4));
     scene6->addItem(enemigos1.back());
-    enemigos1.push_back(new Enemigo(-435,165,180,205,-435,pintura3,2));
+    enemigos1.push_back(new Enemigo(-435,165,180,205,-435,pintura3,4));
     scene6->addItem(enemigos1.back());
 
     resorte1 = new Resorte(-455,-15,60);
@@ -541,10 +564,17 @@ void MainWindow::level3(){
 
     puerta1 = new puerta(-395,225);
     scene6->addItem(puerta1);
+
+    salir->setGeometry(-475,-270,45,45);
+    salir->setIcon(QIcon(":/images/botonsalir.png"));
+    salir->setIconSize(QSize(40,40));
+    salir->setStyleSheet("background-color: rgba(0,0,0,0%);");
+
     esconderllave();
 
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
     connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
+    connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
 
      ui->graphicsView->show();
 }
@@ -560,6 +590,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador1)){
             posx1+=10;
         }
+        if(sceneaux==scene5){
+            if(jugador1->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador1->collidesWithItem(resorte1)){
+            posx1+=60;
+        }
         Pos=0;
     }
         break;
@@ -569,6 +607,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador1->personajebrush=pintura1;
         if(colParedes(jugador1)){
             posx1-=10;
+        }
+        if(sceneaux==scene5){
+            if(jugador1->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador1->collidesWithItem(resorte1)){
+            posx1-=60;
         }
         Pos=1;
     }
@@ -580,6 +626,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador2)){
             posx2+=10;
         }
+        if(sceneaux==scene5){
+            if(jugador2->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador2->collidesWithItem(resorte1)){
+            posx1+=60;
+        }
         Pos=0;
     }
         break;
@@ -589,6 +643,14 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador2->personajebrush=pintura3;
         if(colParedes(jugador2)){
             posx2-=10;
+        }
+        if(sceneaux==scene5){
+            if(jugador2->collidesWithItem(puerta1)){
+                puerta1->setVisible(true);
+            }
+        }
+        while(jugador2->collidesWithItem(resorte1)){
+            posx1-=60;
         }
         Pos=1;
     }

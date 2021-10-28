@@ -133,12 +133,14 @@ void Usuarios::Guardar()
     vector<string>::iterator vecIt;
 
     try {
-        fout.open("../ProyectoFinal/usuarios.txt");
+        fout.open("../usuarios.txt");
         if(!fout.is_open()){throw '1';}
         for(iter=users.begin(); iter!=users.end(); iter++){
             for(vecIt=iter->begin(); vecIt!=iter->end(); vecIt++){
                 linea+=(*vecIt);
+                linea+=';';
             }
+            linea+='\n';
             fout << linea;
             linea="";
         }

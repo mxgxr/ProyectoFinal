@@ -1,1 +1,2 @@
 manuela;hola;1
+polo;gato;2

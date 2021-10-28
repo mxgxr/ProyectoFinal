@@ -596,7 +596,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             }
         }
         while(jugador1->collidesWithItem(resorte1)){
-            posx1+=20;
+            posx1+=60;
         }
         Pos=0;
     }
@@ -614,7 +614,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             }
         }
         while(jugador1->collidesWithItem(resorte1)){
-            posx1-=20;
+            posx1-=60;
         }
         Pos=1;
     }
@@ -632,7 +632,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             }
         }
         while(jugador2->collidesWithItem(resorte1)){
-            posx1+=20;
+            posx1+=60;
         }
         Pos=0;
     }
@@ -650,7 +650,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             }
         }
         while(jugador2->collidesWithItem(resorte1)){
-            posx1-=20;
+            posx1-=60;
         }
         Pos=1;
     }

@@ -1,5 +1,10 @@
 #include "resorte.h"
 
+double Resorte::getVelx() const
+{
+    return velx;
+}
+
 Resorte::Resorte(double x, double y, double a)
 {
     this->posx=x;

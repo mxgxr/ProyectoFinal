@@ -21,6 +21,7 @@ public:
     bool Validar(string nombre, string contrasena);
     void Leer(string linea);
     string getLevel(string nombre);
+    void setLevel(string nombre, string nivel);
     void Guardar();
 };
 

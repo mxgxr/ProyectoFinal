@@ -39,9 +39,7 @@
 #define izquierda_2 ":/jugadores/sprites/2flechai.png"
 #define enemigoDere ":/jugadores/sprites/fantasmader.png"
 #define enemigoIzq ":/jugadores/sprites/fantasmaizq.png"
-#define comprimido ":/jugadores/sprites/resortecomprimido.png"
-#define estirado ":/jugadores/sprites/resorteestirado.png"
-#define normal ":/jugadores/sprites/resorte normal.png"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -55,10 +53,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void ePrincipal();
+    //void ePrincipal();
+    void eFinLevel();
+    void eEndGame();
     void loadLevel(QString ruta, QGraphicsScene *escena);
     bool colParedes(QGraphicsItem *elemento);
-    void colEnemigo(QGraphicsItem *elemento);
+    void colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena);
     bool colPersonaje(QGraphicsItem *elemento);
     void esconderllave();
     void mostrarllave();
@@ -66,6 +66,7 @@ public:
 public slots:
 
 private slots:
+    void ePrincipal();
     void eRegistro();
     void funcRegistro();
     void eInicio();
@@ -89,10 +90,10 @@ protected:
      void keyPressEvent(QKeyEvent *movimiento);
 private:
 
-    QGraphicsScene *scene1, *scene2, *scene3, *scene4, *scene5, *scene6, *scene7, *scene8, *scene9; //1. inicio(ingresar/registrar) 2.ingresar 3.registrar 4.nivel1 5.nivel2 6.nivel3 7.continuar,salir 8.finalizado el juego
-    QImage *letrero2;
-    QPushButton *registrar, *ingresar, *aceptarR;
-    QLabel *title1, *regist;
+    QGraphicsScene *scene1, *scene2, *scene3, *scene4, *scene5, *scene6; //1. inicio(ingresar/registrar) 2.finlevel 3.fingame 4.nivel1 5.nivel2 6.nivel3
+    QImage *letrero1, *letrero2;
+    QPushButton *registrar, *ingresar, *aceptarR, *salir, *continuar, *abandonar;
+    QLabel *title1, *regist, *title2;
     QLineEdit *usuario1, *contra;
     Usuarios *users;
     QList<Pared*>paredes;
@@ -101,10 +102,11 @@ private:
     QTimer *timer, *timer2;
     QVector<Enemigo*>enemigos1;
     Resorte *resorte1;
-    double tiempo=0;
+    double tiempo=0, trad;
     puerta *puerta1;
     QVector<fuego*>fuegos;
     QLCDNumber *vida1, *vida2;
+    string nomUsuario;
 
     Pared *pared;
     personajes *jugador1,*jugador2;

@@ -62,6 +62,7 @@ public:
     bool colPersonaje(QGraphicsItem *elemento);
     void esconderllave();
     void mostrarllave();
+    void createFuego(QGraphicsScene *scene);
 
 public slots:
 
@@ -99,7 +100,7 @@ private:
     QList<Pared*>paredes;
     Dialog *ventana1, *ventana2;
     Enemigo *enemigo1, *enemigo2;
-    QTimer *timer, *timer2;
+    QTimer *timer, *timer2, *fuegotimer;
     QVector<Enemigo*>enemigos1;
     Resorte *resorte1;
     double tiempo=0, trad;
@@ -107,6 +108,7 @@ private:
     QVector<fuego*>fuegos;
     QLCDNumber *vida1, *vida2;
     string nomUsuario;
+
 
     Pared *pared;
     personajes *jugador1,*jugador2;

@@ -1,2 +1,3 @@
-manuela;hola;1
-polo;gato;2
+manuela;hola;1;
+polo;gato;2;
+manu;sip;1;

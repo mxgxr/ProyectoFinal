@@ -362,17 +362,41 @@ void MainWindow::esconderllave(){
 void MainWindow::mostrarllave(){
     llaveshow=true;
     if(numjugador==0){
-        key= new llave(posx1,posy1);
         llavenum=0;
+        if(users->getLevel(ventana2->getUsuario())=="1"){
+            key= new llave(posx1,posy1);
+            scene4->addItem(key);
+        }
+        if(users->getLevel(ventana2->getUsuario())=="2"){
+            key= new llave(posx1,posy1);
+            scene5->addItem(key);
+        }
+        if(users->getLevel(ventana2->getUsuario())=="3"){
+            key= new llave(posx1,posy1);
+            scene6->addItem(key);
+        }
+        llavem= new QTimer();
+        connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
+        llavem->start(30);
     }
     else if(numjugador==1){
-        key= new llave(posx2,posy2);
         llavenum=1;
+        if(users->getLevel(ventana2->getUsuario())=="1"){
+            key= new llave(posx2,posy2);
+            scene4->addItem(key);
+        }
+        if(users->getLevel(ventana2->getUsuario())=="2"){
+            key= new llave(posx2,posy2);
+            scene5->addItem(key);
+        }
+        if(users->getLevel(ventana2->getUsuario())=="3"){
+            key= new llave(posx2,posy2);
+            scene6->addItem(key);
+        }
+        llavem= new QTimer();
+        connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
+        llavem->start(30);
     }
-    sceneaux->addItem(key);
-    llavem= new QTimer();
-    connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
-    llavem->start(30);
 }
 
 void MainWindow::createFuego(QGraphicsScene *scene)

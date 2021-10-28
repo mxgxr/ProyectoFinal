@@ -52,3 +52,8 @@ RESOURCES += \
 
     personajes.qrc
 
+DISTFILES += \
+    level1.txt \
+    level2.txt \
+    level3.txt
+

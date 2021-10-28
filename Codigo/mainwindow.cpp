@@ -286,6 +286,17 @@ bool MainWindow::colPersonaje(QGraphicsItem *elemento)
     return false;
 }
 
+void MainWindow::colPuerta(){
+    if(key->collidesWithItem(puerta1)){
+        if(level==1){
+            level2();
+        }
+        if(level==2){
+            level3();
+        }
+    }
+}
+
 void MainWindow::eRegistro()
 {
     regist->setVisible(false);
@@ -342,7 +353,7 @@ void MainWindow::funcAcceder()
             level2();
         }
         else if(level=="3"){
-
+            level3();
         }
         else if(level=="4"){
             eEndGame();
@@ -369,7 +380,7 @@ void MainWindow::mostrarllave(){
         key= new llave(posx2,posy2);
         llavenum=1;
     }
-    scene4->addItem(key);
+    sceneaux->addItem(key);
     llavem= new QTimer();
     connect(llavem,SIGNAL(timeout()),this,SLOT(movimientollave()));
     llavem->start(30);
@@ -385,6 +396,9 @@ void MainWindow::createFuego(QGraphicsScene *scene)
 }
 void MainWindow::level1()
 {
+    sceneaux=scene4;
+    level=1;
+
     timer = new QTimer(this);
     timer->start(10);
     timer2 = new QTimer(this);
@@ -446,6 +460,8 @@ void MainWindow::level1()
 
 void MainWindow::level2()
 {
+    level=2;
+    sceneaux=scene5;
     scene5 = new QGraphicsScene();
     ui->graphicsView->setScene(scene5);
     scene5->setSceneRect(-500,-300,1000,600);
@@ -461,6 +477,78 @@ void MainWindow::level2()
 
     ui->graphicsView->show();
 }
+void MainWindow::level3(){
+    level=3;
+    sceneaux=scene6;
+    timer = new QTimer(this);
+    timer->start(10);
+    timer2 = new QTimer(this);
+    timer2->start(1000);
+
+    vida1 = new QLCDNumber();
+    vida1->setDecMode();
+    vida1->setGeometry(-500,-255,20,30);
+    vida1->setDigitCount(2);
+    vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida1->show();
+
+    vida2 = new QLCDNumber();
+    vida2->setDecMode();
+    vida2->setGeometry(-420,-255,20,30);
+    vida2->setDigitCount(2);
+    vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
+    vida2->show();
+
+    scene6 = new QGraphicsScene();
+    ui->graphicsView->setScene(scene6);
+    scene6->setSceneRect(-500,-300,1000,600);
+    scene6->setBackgroundBrush(QPixmap(":/images/fondo3.jpg"));
+
+    loadLevel("../level3.txt",scene6);
+
+    QPixmap pintura1(jugador_1),pintura2(jugador_2),pintura3(enemigoDere),pintura4(enemigoIzq);
+    posx1=-455;
+    posy1=220;
+    posx2=-395;
+    posy2=220;
+    jugador1 = new personajes(posx1,posy1,pintura1,10);
+    vida1->display(jugador1->getVida());
+
+    jugador2 = new personajes(posx2,posy2,pintura2,10);
+    vida2->display(jugador2->getVida());
+    scene6->addItem(jugador1);
+    scene6->addItem(jugador2);
+    scene6->addWidget(vida1);
+    scene6->addWidget(vida2);
+
+    enemigos1.push_back(new Enemigo(-65,-255,180,-65,-435,pintura4,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(5,-255,180,455,5,pintura4,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(85,-105,180,85,-215,pintura4,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(-435,-15,180,-35,-435,pintura3,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(-285,75,180,115,-285,pintura3,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(465,-45,180,465,355,pintura4,2));
+    scene6->addItem(enemigos1.back());
+    enemigos1.push_back(new Enemigo(-435,165,180,205,-435,pintura3,2));
+    scene6->addItem(enemigos1.back());
+
+    resorte1 = new Resorte(-455,-15,60);
+    scene6->addItem(resorte1);
+
+    puerta1 = new puerta(-395,225);
+    scene6->addItem(puerta1);
+    esconderllave();
+
+    connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
+    connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
+
+     ui->graphicsView->show();
+}
+
 
 void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     QPixmap pintura1(derecha_1),pintura2(izquierda_1),pintura3(derecha_2),pintura4(izquierda_2);
@@ -508,19 +596,19 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     case Qt::Key_W:
     {
         direccion=true;
-        limite=posy1-30;
+        limite=posy1-90;
         salto=new QTimer(this);
         connect(salto,SIGNAL(timeout()),this,SLOT(saltopersonaje1()));
-        salto->start(80);
+        salto->start(50);
     }
         break;
     case Qt::Key_U:
     {
         direccion=true;
-        limite=posy2-30;
+        limite=posy2-90;
         salto=new QTimer(this);
         connect(salto,SIGNAL(timeout()),this,SLOT(saltopersonaje2()));
-        salto->start(80);
+        salto->start(50);
     }
         break;
     case Qt::Key_F:
@@ -634,10 +722,12 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     if(llavenum==0 and llaveshow){
         key->posx=posx1;
         key->posy=posy1;
+        colPuerta();
     }
     if(llavenum==1 and llaveshow){
         key->posx=posx2;
         key->posy=posy2;
+        colPuerta();
     }
 }
 
@@ -666,11 +756,11 @@ void MainWindow::movFuego()
     for(it=fuegos.begin(); it!=fuegos.end(); it++){
         (*it)->cPosicion();
         if(colPersonaje((*it))){
-            scene4->removeItem((*it));
+            sceneaux->removeItem((*it));
             fuegos.erase(it);
         }
         else if(colParedes((*it))){
-            scene4->removeItem((*it));
+            sceneaux->removeItem((*it));
             fuegos.erase(it);
         }
     }
@@ -688,6 +778,7 @@ void MainWindow::saltopersonaje1(){
         if(llaveshow){
             key->posx=posx1;
             key->posy=posy1;
+            colPuerta();
         }
         if(colParedes(jugador1)){
             direccion=false;
@@ -703,8 +794,12 @@ void MainWindow::saltopersonaje1(){
         if(llaveshow){
             key->posx=posx1;
             key->posy=posy1;
+            colPuerta();
         }
         if(colParedes(jugador1)){
+            posy1-=10;
+            jugador1->posy-=10;
+            jugador1->setPos(posx1,posy1);
             salto->stop();
         }
     }
@@ -717,6 +812,7 @@ void MainWindow::saltopersonaje2(){
         if(llaveshow){
             key->posx=posx2;
             key->posy=posy2;
+            colPuerta();
         }
         if(colParedes(jugador2)){
             direccion=false;
@@ -732,8 +828,12 @@ void MainWindow::saltopersonaje2(){
         if(llaveshow){
             key->posx=posx2;
             key->posy=posy2;
+            colPuerta();
         }
         if(colParedes(jugador2)){
+            posy2-=10;
+            jugador2->posy-=10;
+            jugador2->setPos(posx2,posy2);
             salto->stop();
         }
     }

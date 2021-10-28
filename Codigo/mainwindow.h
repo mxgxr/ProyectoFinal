@@ -60,6 +60,7 @@ public:
     bool colParedes(QGraphicsItem *elemento);
     void colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena);
     bool colPersonaje(QGraphicsItem *elemento);
+    void colPuerta();
     void esconderllave();
     void mostrarllave();
     void createFuego(QGraphicsScene *scene);
@@ -75,7 +76,8 @@ private slots:
     void movEnemigo();
     void movResorte();
     void level1();
-
+    void level2();
+    void level3();
    
     void movFuego();
    
@@ -85,13 +87,12 @@ private slots:
     void saltopersonaje1();
     void saltopersonaje2();
 
-    void level2();
-   // void level3();
 protected:
      void keyPressEvent(QKeyEvent *movimiento);
 private:
 
     QGraphicsScene *scene1, *scene2, *scene3, *scene4, *scene5, *scene6; //1. inicio(ingresar/registrar) 2.finlevel 3.fingame 4.nivel1 5.nivel2 6.nivel3
+    QGraphicsScene *sceneaux;
     QImage *letrero1, *letrero2;
     QPushButton *registrar, *ingresar, *aceptarR, *salir, *continuar, *abandonar;
     QLabel *title1, *regist, *title2;
@@ -113,7 +114,7 @@ private:
     Pared *pared;
     personajes *jugador1,*jugador2;
     flecha *tirarflecha;
-    int posx1,posy1,posx2,posy2,limite,numero;
+    int posx1,posy1,posx2,posy2,limite,numero,level;
     bool Pos,direccion,numjugador,llaveshow=false,llavenum;
     QList<personajes*> jugadores;
     QList<personajes*>::iterator pers1,pers2;
@@ -121,7 +122,6 @@ private:
     QTimer *llavem;
     QTimer *salto;
     llave *key;
-    puerta *abrirpuerta;
 
     Ui::MainWindow *ui;
     //QGraphicsScene *scene9;

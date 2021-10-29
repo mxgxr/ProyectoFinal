@@ -10,7 +10,7 @@
 class fuego : public QGraphicsItem
 {
     int posx,posy;
-    int vel=100;
+    int vel=50;
     double angulo;
 public:
     fuego(int x, int y, int a);

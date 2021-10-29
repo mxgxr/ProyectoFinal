@@ -19,6 +19,7 @@
 #include <QLCDNumber>
 #include <stdlib.h>
 #include <time.h>
+#include <QDebug>
 
 #include "dialog.h"
 #include "pared.h"
@@ -58,12 +59,13 @@ public:
     void eEndGame();
     void loadLevel(QString ruta, QGraphicsScene *escena);
     bool colParedes(QGraphicsItem *elemento);
-    void colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena);
-    bool colPersonaje(QGraphicsItem *elemento);
+    bool colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena);
+    bool colPersonaje(QGraphicsItem *elemento, personajes *personaje, QLCDNumber *crono);
     void colPuerta();
     void esconderllave();
     void mostrarllave();
     void createFuego(QGraphicsScene *scene);
+    void deleteFuego(QGraphicsItem *elemento);
 
 public slots:
 
@@ -109,6 +111,7 @@ private:
     QVector<fuego*>fuegos;
     QLCDNumber *vida1, *vida2;
     string nomUsuario;
+
 
 
     Pared *pared;

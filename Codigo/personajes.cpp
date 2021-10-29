@@ -8,7 +8,7 @@ int personajes::getVida() const
 void personajes::setVida()
 {
     if(vida-1>=0){
-        vida = vida--;
+        vida = vida-1;
     }
 }
 

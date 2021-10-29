@@ -32,7 +32,7 @@ double Enemigo::getVidas() const
 
 void Enemigo::setVidas()
 {
-    vidas--;
+    vidas=vidas-1;
 }
 
 double Enemigo::getAngulo() const

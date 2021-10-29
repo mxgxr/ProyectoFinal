@@ -49,8 +49,10 @@ bool Usuarios::Validar(string nombre)
     if(!users.empty()){
         for(iter=users.begin(); iter!=users.end(); iter++){
             vecIt=iter->begin();
-            if(*(vecIt)==nombre){
-                return true;
+            if(vecIt!=iter->end()){
+                if(*(vecIt)==nombre){
+                    return true;
+                }
             }
         }
     }
@@ -64,10 +66,12 @@ bool Usuarios::Validar(string nombre, string contrasena)
 
     for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if((*vecIt)==nombre){
-            vecIt++;
-            if((*vecIt)==contrasena){
-                return true;
+        if(vecIt!=iter->end()){
+            if((*vecIt)==nombre){
+                vecIt++;
+                if((*vecIt)==contrasena){
+                    return true;
+                }
             }
         }
     }
@@ -102,8 +106,10 @@ string Usuarios::getLevel(string nombre)
 
     for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if((*vecIt)==nombre){
-            return (iter->back());
+        if(vecIt!=iter->end()){
+            if((*vecIt)==nombre){
+                return (iter->back());
+            }
         }
    }
 

@@ -253,6 +253,7 @@ bool MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
                 enemigos1.erase(iter);
                 if(cont==numero){
                     mostrarllave();
+                    numero=20;
                 }
             }
             return true;
@@ -893,7 +894,7 @@ void MainWindow::saltopersonaje1(){
         jugador1->arriba();
         posy1=jugador1->posy;
         jugador1->setPos(posx1,posy1);
-        if(llaveshow){
+        if(llaveshow and llavenum==0){
             key->posx=posx1;
             key->posy=posy1;
             colPuerta();
@@ -909,7 +910,7 @@ void MainWindow::saltopersonaje1(){
         jugador1->abajo();
         posy1=jugador1->posy;
         jugador1->setPos(posx1,posy1);
-        if(llaveshow){
+        if(llaveshow and llavenum==0){
             key->posx=posx1;
             key->posy=posy1;
             colPuerta();
@@ -927,7 +928,7 @@ void MainWindow::saltopersonaje2(){
         jugador2->arriba();
         posy2=jugador2->posy;
         jugador2->setPos(posx2,posy2);
-        if(llaveshow){
+        if(llaveshow and llavenum==1){
             key->posx=posx2;
             key->posy=posy2;
             colPuerta();
@@ -943,7 +944,7 @@ void MainWindow::saltopersonaje2(){
         jugador2->abajo();
         posy2=jugador2->posy;
         jugador2->setPos(posx2,posy2);
-        if(llaveshow){
+        if(llaveshow and llavenum==1){
             key->posx=posx2;
             key->posy=posy2;
             colPuerta();

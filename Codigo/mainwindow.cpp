@@ -250,7 +250,6 @@ bool MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
             (*iter)->setVidas();
             if((*iter)->getVidas()==0){
                 scena->removeItem((*iter));
-                enemigos1.erase(iter);
                 if(cont==numero){
                     mostrarllave();
                     numero=20;
@@ -488,6 +487,10 @@ void MainWindow::level1()
 
 void MainWindow::level2()
 {
+    QVector<Enemigo*>::iterator iter;
+    for(iter=enemigos1.begin();iter!=enemigos1.end();iter++){
+        enemigos1.erase(iter);
+    }
     level=2;
     sceneaux=scene5;
     fuegos.clear();
@@ -559,6 +562,10 @@ void MainWindow::level2()
 }
 
 void MainWindow::level3(){
+    QVector<Enemigo*>::iterator iter;
+    for(iter=enemigos1.begin();iter!=enemigos1.end();iter++){
+        enemigos1.erase(iter);
+    }
     level=3;
     sceneaux=scene6;
     fuegos.clear();

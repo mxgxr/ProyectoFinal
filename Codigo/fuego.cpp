@@ -10,7 +10,7 @@ fuego::fuego(int x, int y, int a)
 
 void fuego::cPosicion()
 {
-    posx=posx+vel*dt*cos(angulo);
+    posx=posx+vel*cos(angulo);
     setPos(posx,-posy);
 }
 

@@ -64,9 +64,9 @@ bool Usuarios::Validar(string nombre, string contrasena)
 
     for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if(*(vecIt)==nombre){
+        if((*vecIt)==nombre){
             vecIt++;
-            if(*(vecIt)==contrasena){
+            if((*vecIt)==contrasena){
                 return true;
             }
         }
@@ -117,9 +117,9 @@ void Usuarios::setLevel(string nombre, string nivel)
 
     for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if(*(vecIt)==nombre){
-            vecIt+=2;
-            (*vecIt)=nivel;
+        if((*vecIt)==nombre){
+            iter->pop_back();
+            iter->push_back(nivel);
         }
    }
 

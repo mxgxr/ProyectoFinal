@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setWindowTitle("The master key");
     users = new Usuarios;
+
     salir = new QPushButton();
     salir->setIcon(QIcon(":/images/botonsalir.png"));
     salir->setIconSize(QSize(40,40));
@@ -19,14 +20,14 @@ MainWindow::MainWindow(QWidget *parent)
     vida1 = new QLCDNumber();
     vida1->setDecMode();
     vida1->setGeometry(-430,-255,20,30);
-    vida1->setDigitCount(2);
+    //vida1->setDigitCount(2);
     vida1->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
     vida1->show();
 
     vida2 = new QLCDNumber();
     vida2->setDecMode();
     vida2->setGeometry(-350,-255,20,30);
-    vida2->setDigitCount(2);
+    //vida2->setDigitCount(2);
     vida2->setStyleSheet("color: rgb(255, 255, 255);" "background-color: rgba(0,0,0,0%);");
     vida2->show();
 
@@ -83,7 +84,7 @@ void MainWindow::eFinLevel()
     ui->graphicsView->show();
     scene2->setSceneRect(0,0,1000,600);
 
-    letrero1 = new QImage(":/images/letrero1.jpg");
+    letrero1 = new QImage(":/images/letrero2.jpg");
     scene2->addPixmap(QPixmap::fromImage(*letrero1));
 
     continuar = new QPushButton("Continuar");
@@ -127,24 +128,23 @@ void MainWindow::eEndGame()
     ui->graphicsView->show();
     scene3->setSceneRect(0,0,1000,600);
 
-    letrero1 = new QImage(":/images/letrero1.jpg");
+    letrero1 = new QImage(":/images/letrero2.jpg");
     scene3->addPixmap(QPixmap::fromImage(*letrero1));
 
 
     abandonar = new QPushButton("Salir");
     abandonar->setGeometry(QRect(QPoint(350,380), QSize(300,50)));
     abandonar->setStyleSheet("font: 10pt ;" "font: Modern;" "color: rgb(255, 255, 255);" "background-color: rgba(3,112,71,80%);");
-    scene2->addWidget(abandonar);
+    scene3->addWidget(abandonar);
 
     title2 = new QLabel("Fin del juego");
     title2->setGeometry(300,80,600,50);
     title2->setStyleSheet("font: 30pt ;" "font: Modern;" "color: rgb(234, 190, 63);" "background-color: rgba(0,0,0,0%);" "font style: Negrita;");
-    scene2->addWidget(title2);
+    scene3->addWidget(title2);
 
     users->setLevel(ventana2->getUsuario(),"4");
     users->Guardar();
 
-    ui->graphicsView->show();
 
     connect(abandonar, SIGNAL (clicked()),this, SLOT (ePrincipal()));
 
@@ -241,7 +241,7 @@ bool MainWindow::colParedes(QGraphicsItem *elemento)
     return false;
 }
 
-void MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
+bool MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
 {
     QVector<Enemigo*>::iterator iter;
     int cont=0;
@@ -256,18 +256,19 @@ void MainWindow::colEnemigo(QGraphicsItem *elemento, QGraphicsScene *scena)
                     mostrarllave();
                 }
             }
-        }
-    }
-}
-
-bool MainWindow::colPersonaje(QGraphicsItem *elemento)
-{
-    QList<personajes*>::iterator per;
-    for(per=jugadores.begin();per!=jugadores.end();per++){
-        if((*per)->collidesWithItem(elemento)){
-            (*per)->setVida();
             return true;
         }
+    }
+    return false;
+}
+
+bool MainWindow::colPersonaje(QGraphicsItem *elemento, personajes *personaje, QLCDNumber *crono)
+{
+    if(personaje->collidesWithItem(elemento)){
+        personaje->setVida();
+        crono->display(personaje->getVida());
+        crono->show();
+        return true;
     }
     return false;
 }
@@ -330,7 +331,6 @@ void MainWindow::eInicio()
 void MainWindow::funcAcceder()
 {
     ventana2->close();
-
     string level;
 
     if(users->Validar(ventana2->getUsuario(),ventana2->getContra())){
@@ -407,9 +407,22 @@ void MainWindow::createFuego(QGraphicsScene *scene)
         scene->addItem(fuegos.back());
     }
 }
+
+void MainWindow::deleteFuego(QGraphicsItem *elemento)
+{
+    elemento->setVisible(false);
+    //sceneaux->removeItem(elemento);
+
+    //fuegos.erase(&elemento);
+}
+
 void MainWindow::level1()
 {
     sceneaux=scene4;
+    QVector<fuego*>::iterator it;
+    for(it=fuegos.begin(); it!=fuegos.end(); it++){
+        fuegos.erase(it);
+    }
     level=1;
 
     timer = new QTimer(this);
@@ -438,6 +451,7 @@ void MainWindow::level1()
 
     jugador2 = new personajes(posx2,posy2,pintura2,10);
     vida2->display(jugador2->getVida());
+
     scene4->addItem(jugador1);
     scene4->addItem(jugador2);
     scene4->addWidget(vida1);
@@ -448,7 +462,7 @@ void MainWindow::level1()
     enemigos1.push_back(new Enemigo(-215,55,0,120,-215,pintura4,2));
     scene4->addItem(enemigos1.back());
 
-    resorte1 = new Resorte(385,-150,60);
+    resorte1 = new Resorte(-400,-120,90);
 
     scene4->addItem(resorte1);
 
@@ -464,6 +478,10 @@ void MainWindow::level1()
 
     scene4->addWidget(salir);
 
+    fuegotimer=new QTimer(this);
+    fuegotimer->start(1000);
+    connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
+
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
     connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
     connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
@@ -475,6 +493,10 @@ void MainWindow::level2()
 {
     level=2;
     sceneaux=scene5;
+    QVector<fuego*>::iterator it;
+    for(it=fuegos.begin(); it!=fuegos.end(); it++){
+        fuegos.erase(it);
+    }
     scene5 = new QGraphicsScene();
     ui->graphicsView->setScene(scene5);
     scene5->setSceneRect(-500,-300,1000,600);
@@ -532,6 +554,10 @@ void MainWindow::level2()
 
     scene5->addWidget(salir);
 
+    fuegotimer=new QTimer(this);
+    fuegotimer->start(1000);
+    connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
+
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
     connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
     connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
@@ -542,6 +568,10 @@ void MainWindow::level2()
 void MainWindow::level3(){
     level=3;
     sceneaux=scene6;
+    QVector<fuego*>::iterator it;
+    for(it=fuegos.begin(); it!=fuegos.end(); it++){
+        fuegos.erase(it);
+    }
     timer = new QTimer(this);
     timer->start(10);
     timer2 = new QTimer(this);
@@ -599,6 +629,10 @@ void MainWindow::level3(){
 
     esconderllave();
 
+    fuegotimer=new QTimer(this);
+    fuegotimer->start(1000);
+
+    connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
     connect(timer,SIGNAL(timeout()),this,SLOT(movEnemigo()));
     connect(timer2,SIGNAL(timeout()),this,SLOT(movResorte()));
     connect(salir,SIGNAL(clicked()),this,SLOT(ePrincipal()));
@@ -612,7 +646,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
     switch (movimiento->key()) {
     case Qt::Key_A:
     {
-        posx1-=5;
+        posx1-=15;
         jugador1->personajebrush=pintura2;
         if(colParedes(jugador1)){
             posx1+=10;
@@ -630,7 +664,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         break;
     case Qt::Key_D:
     {
-        posx1+=5;
+        posx1+=15;
         jugador1->personajebrush=pintura1;
         if(colParedes(jugador1)){
             posx1-=10;
@@ -648,7 +682,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         break;
     case Qt::Key_H:
     {
-        posx2-=5;
+        posx2-=15;
         jugador2->personajebrush=pintura4;
         if(colParedes(jugador2)){
             posx2+=10;
@@ -666,7 +700,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         break;
     case Qt::Key_K:
     {
-        posx2+=5;
+        posx2+=15;
         jugador2->personajebrush=pintura3;
         if(colParedes(jugador2)){
             posx2-=10;
@@ -721,9 +755,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
             flecham->start(50);
 
-            fuegotimer=new QTimer(this);
-            fuegotimer->start(1000);
-            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
+
 
           
 
@@ -746,9 +778,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
             flecham->start(50);
 
-            fuegotimer=new QTimer(this);
-            fuegotimer->start(1000);
-            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
+
 
            
 
@@ -762,43 +792,42 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
             tirarflecha= new flecha(posx2-60,posy2+25,0);
             if(users->getLevel(ventana2->getUsuario())=="1"){
                 scene4->addItem(tirarflecha);
+                createFuego(scene4);
             }
             else if(users->getLevel(ventana2->getUsuario())=="2"){
                 scene5->addItem(tirarflecha);
+                createFuego(scene5);
             }
             else if(users->getLevel(ventana2->getUsuario())=="3"){
                 scene6->addItem(tirarflecha);
+                createFuego(scene6);
             }
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
             flecham->start(50);
 
-            fuegotimer=new QTimer(this);
-            fuegotimer->start(1000);
-            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
-            
 
         }
         else if(Pos==1){
             tirarflecha= new flecha(posx2+60,posy2+25,1);
             if(users->getLevel(ventana2->getUsuario())=="1"){
                 scene4->addItem(tirarflecha);
+                createFuego(scene4);
             }
             else if(users->getLevel(ventana2->getUsuario())=="2"){
                 scene5->addItem(tirarflecha);
+                createFuego(scene5);
             }
             else if(users->getLevel(ventana2->getUsuario())=="3"){
                 scene6->addItem(tirarflecha);
+                createFuego(scene6);
             }
 
             flecham=new QTimer(this);
             connect(flecham,SIGNAL(timeout()),this,SLOT(movimientoflecha()));
             flecham->start(50);
 
-            fuegotimer=new QTimer(this);
-            fuegotimer->start(1000);
-            connect(fuegotimer, SIGNAL(timeout()),this,SLOT(movFuego()));
 
          
 
@@ -823,15 +852,25 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
 void MainWindow::movimientoflecha(){
     tirarflecha->calcularPos();
     if(users->getLevel(ventana2->getUsuario())=="1"){
-        colEnemigo(tirarflecha,scene4);
+        if(colEnemigo(tirarflecha,scene4)){
+            flecham->stop();
+            tirarflecha->hide();
+        }
     }
     else if(users->getLevel(ventana2->getUsuario())=="2"){
-        colEnemigo(tirarflecha,scene5);
+        if(colEnemigo(tirarflecha,scene5)){
+            flecham->stop();
+            tirarflecha->hide();
+        }
     }
     else if(users->getLevel(ventana2->getUsuario())=="3"){
-        colEnemigo(tirarflecha,scene6);
+        if(colEnemigo(tirarflecha,scene6)){
+            flecham->stop();
+            tirarflecha->hide();
+        }
     }
-    colPersonaje(tirarflecha);
+    colPersonaje(tirarflecha, jugador1, vida1);
+    colPersonaje(tirarflecha, jugador2, vida2);
     if(tirarflecha->Yfinal>tirarflecha->Yinicial){
         flecham->stop();
         tirarflecha->hide();
@@ -844,15 +883,36 @@ void MainWindow::movFuego()
     QVector<fuego*>::iterator it;
     for(it=fuegos.begin(); it!=fuegos.end(); it++){
         (*it)->cPosicion();
-        if(colPersonaje((*it))){
-            sceneaux->removeItem((*it));
-            fuegos.erase(it);
+        if(colPersonaje((*it),jugador1,vida1)){
+            (*it)->setVisible(false);
+            //fuegos.erase(it);
+        }
+        else if(colPersonaje((*it),jugador2,vida2)){
+            (*it)->setVisible(false);
         }
         else if(colParedes((*it))){
-            sceneaux->removeItem((*it));
-            fuegos.erase(it);
+            (*it)->setVisible(false);
+            //fuegos.erase(it);
         }
     }
+
+    /*if(fuegos.empty()){
+        fuegotimer->stop();
+    }*/
+
+    /*for(int i=0; i<fuegos.size(); i++){
+        fuegos[i]->cPosicion();
+        if(colPersonaje(fuegos[i])){
+            fuegos[i]->setVisible(false);
+            sceneaux->removeItem(fuegos[i]);
+            fuegos.erase(i);
+        }
+        else if(colParedes(fuegos[i])){
+            fuegos[i]->setVisible(false);
+            sceneaux->removeItem(fuegos[i]);
+            fuegos.erase(i);
+        }
+    }*/
 }
 
 void MainWindow::movimientollave()

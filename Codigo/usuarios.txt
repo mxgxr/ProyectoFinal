@@ -1,3 +1,4 @@
 manuela;hola;1;
 polo;gato;2;
-manu;sip;1;
+manu;sip;4;
+david;si;1;

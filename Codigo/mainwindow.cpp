@@ -81,7 +81,6 @@ void MainWindow::eFinLevel()
     scene2 = new QGraphicsScene();
 
     ui->graphicsView->setScene(scene2);
-    ui->graphicsView->show();
     scene2->setSceneRect(0,0,1000,600);
 
     letrero1 = new QImage(":/images/letrero2.jpg");
@@ -419,10 +418,7 @@ void MainWindow::deleteFuego(QGraphicsItem *elemento)
 void MainWindow::level1()
 {
     sceneaux=scene4;
-    QVector<fuego*>::iterator it;
-    for(it=fuegos.begin(); it!=fuegos.end(); it++){
-        fuegos.erase(it);
-    }
+    fuegos.clear();
     level=1;
 
     timer = new QTimer(this);
@@ -493,10 +489,7 @@ void MainWindow::level2()
 {
     level=2;
     sceneaux=scene5;
-    QVector<fuego*>::iterator it;
-    for(it=fuegos.begin(); it!=fuegos.end(); it++){
-        fuegos.erase(it);
-    }
+    fuegos.clear();
     scene5 = new QGraphicsScene();
     ui->graphicsView->setScene(scene5);
     scene5->setSceneRect(-500,-300,1000,600);
@@ -542,7 +535,6 @@ void MainWindow::level2()
     scene5->addItem(resorte1);
 
     puerta1 = new puerta(-355,85);
-    puerta1->setVisible(false);
     scene5->addItem(puerta1);
     esconderllave();
 
@@ -568,16 +560,11 @@ void MainWindow::level2()
 void MainWindow::level3(){
     level=3;
     sceneaux=scene6;
-    QVector<fuego*>::iterator it;
-    for(it=fuegos.begin(); it!=fuegos.end(); it++){
-        fuegos.erase(it);
-    }
+    fuegos.clear();
     timer = new QTimer(this);
     timer->start(10);
     timer2 = new QTimer(this);
     timer2->start(1000);
-
-
 
     scene6 = new QGraphicsScene();
     ui->graphicsView->setScene(scene6);
@@ -651,11 +638,6 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador1)){
             posx1+=10;
         }
-        if(sceneaux==scene5){
-            if(jugador1->collidesWithItem(puerta1)){
-                puerta1->setVisible(true);
-            }
-        }
         while(jugador1->collidesWithItem(resorte1)){
             posx1+=60;
         }
@@ -668,11 +650,6 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         jugador1->personajebrush=pintura1;
         if(colParedes(jugador1)){
             posx1-=10;
-        }
-        if(sceneaux==scene5){
-            if(jugador1->collidesWithItem(puerta1)){
-                puerta1->setVisible(true);
-            }
         }
         while(jugador1->collidesWithItem(resorte1)){
             posx1-=60;
@@ -687,11 +664,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador2)){
             posx2+=10;
         }
-        if(sceneaux==scene5){
-            if(jugador2->collidesWithItem(puerta1)){
-                puerta1->setVisible(true);
-            }
-        }
+
         while(jugador2->collidesWithItem(resorte1)){
             posx1+=60;
         }
@@ -705,11 +678,7 @@ void MainWindow::keyPressEvent(QKeyEvent *movimiento){
         if(colParedes(jugador2)){
             posx2-=10;
         }
-        if(sceneaux==scene5){
-            if(jugador2->collidesWithItem(puerta1)){
-                puerta1->setVisible(true);
-            }
-        }
+
         while(jugador2->collidesWithItem(resorte1)){
             posx1-=60;
         }

@@ -102,11 +102,12 @@ string Usuarios::getLevel(string nombre)
 
     for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if(*(vecIt)==nombre){
-            vecIt+=2;
-            return (*(vecIt));
+        if((*vecIt)==nombre){
+            return (iter->back());
         }
    }
+
+    return "";
 
 }
 
@@ -115,11 +116,14 @@ void Usuarios::setLevel(string nombre, string nivel)
     vector<vector<string>>::iterator iter;
     vector<string>::iterator vecIt;
 
-    for(iter=users.begin(); iter!=users.end(); iter++){
+
+   for(iter=users.begin(); iter!=users.end(); iter++){
         vecIt=iter->begin();
-        if((*vecIt)==nombre){
-            iter->pop_back();
-            iter->push_back(nivel);
+        if(vecIt!=iter->end()){
+            if((*vecIt)==nombre){
+                iter->pop_back();
+                iter->push_back(nivel);
+            }
         }
    }
 
